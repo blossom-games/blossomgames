@@ -881,7 +881,7 @@
         const tab = window.open('about:blank','_blank');
         if(!tab){ alert('Pop-up blocked!'); return; }
         const script = `<script>(async()=>{const r=await fetch('about:blank');})();<\/script>`;
-        const html = `<script>(async()=>{const url="https://cdn.jsdelivr.net/gh/virtuan4-max/ghostlinkhub@main/ghostlinksinglefile.html?v="+Date.now();const r=await fetch(url);const h=await r.text();document.open();document.write(h);document.close();})();<\/script>`;
+        const html = `<script>(async()=>{const url="https://cdn.jsdelivr.net/gh/blossom-games/blossomgames@main/blossomsinglefile.html?v="+Date.now();const r=await fetch(url);const h=await r.text();document.open();document.write(h);document.close();})();<\/script>`;
         tab.document.write(html); tab.document.close();
     }
 
