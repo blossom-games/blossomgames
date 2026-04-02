@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3D Preview</title>
+<title>3D Preview · Blossom Games</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden;font-family:monospace;cursor:grab;
-  background-color:#000;
-  background-image:radial-gradient(circle,#242424 1.2px,transparent 1.2px);
+html,body{height:100%;overflow:hidden;font-family:'Segoe UI',system-ui,sans-serif;cursor:grab;
+  background-color:#0e0a0f;
+  background-image:radial-gradient(circle,#1a0d1a 1.2px,transparent 1.2px);
   background-size:40px 40px;}
 body.dragging{cursor:grabbing}
 #wrap{perspective:1200px;width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;pointer-events:none}
 #stage{transform-style:preserve-3d;transform:rotateX(-15deg) rotateY(20deg);width:1200px;height:600px;position:relative;pointer-events:none}
-#card{position:absolute;inset:0;border-radius:4px;overflow:hidden;background:#0a0a0f;
-  box-shadow:0 0 0 1px #1a1a1a,0 30px 100px rgba(0,0,0,.9);
+#card{position:absolute;inset:0;border-radius:4px;overflow:hidden;background:#0e0a0f;
+  box-shadow:0 0 0 1px rgba(244,143,177,0.15),0 30px 100px rgba(14,10,15,0.9);
   transform-style:preserve-3d;pointer-events:auto;transition:box-shadow .2s}
-#card.iframe-focused{box-shadow:0 0 0 2px #555,0 30px 100px rgba(0,0,0,.9)}
-.e{position:absolute;background:#111}
+#card.iframe-focused{box-shadow:0 0 0 2px rgba(244,143,177,0.5),0 30px 100px rgba(14,10,15,0.9)}
+.e{position:absolute;background:#150d15}
 .eb{width:100%;height:16px;bottom:-16px;left:0;transform:rotateX(-90deg) translateZ(8px);transform-origin:bottom center}
 .et{width:100%;height:16px;top:-16px;left:0;transform:rotateX(90deg) translateZ(8px);transform-origin:top center}
 .el{width:16px;height:100%;left:-16px;top:0;transform:rotateY(-90deg) translateZ(8px);transform-origin:left center}
@@ -26,114 +26,51 @@ body.dragging{cursor:grabbing}
 #shield{position:absolute;inset:0;z-index:10;pointer-events:auto;cursor:inherit}
 body.dragging #shield{cursor:grabbing}
 #card.iframe-focused #shield{display:none}
-
-#coords{position:fixed;bottom:14px;right:14px;color:#2a2a2a;font-size:10px;letter-spacing:1px}
-body:hover #coords{color:#555}
-#hint{position:fixed;bottom:14px;left:14px;color:#333;font-size:10px;letter-spacing:1px}
+#coords{position:fixed;bottom:14px;right:14px;color:rgba(244,143,177,0.25);font-size:10px;letter-spacing:1px}
+body:hover #coords{color:rgba(244,143,177,0.5)}
+#hint{position:fixed;bottom:14px;left:14px;color:rgba(244,143,177,0.3);font-size:10px;letter-spacing:1px}
+#title{position:fixed;top:16px;left:50%;transform:translateX(-50%);font-size:11px;letter-spacing:3px;text-transform:uppercase;color:rgba(244,143,177,0.4);}
 </style>
 </head>
 <body>
+<div id="title">🌸 Blossom Games · 3D Preview</div>
 <div id="wrap"><div id="stage"><div id="card">
   <div class="e eb"></div><div class="e et"></div>
   <div class="e el"></div><div class="e er"></div>
-  <iframe id="preview" srcdoc="<script> 
-(async () => { 
-    const url = &quot;https://cdn.jsdelivr.net/gh/virtuan4-max/ghostlinkhub@latest/ghostlinksinglefile.html?v=&quot; + Date.now();
-    const response = await fetch(url); 
-    const html = await response.text(); 
-    document.open(); 
-    document.write(html); 
-    document.close(); 
-})(); 
-</script>"></iframe>
+  <iframe id="preview" srcdoc="<script>
+(async()=>{
+  const url='blossom-games.html';
+  try{
+    const r=await fetch(url);
+    const h=await r.text();
+    document.open();document.write(h);document.close();
+  }catch(e){
+    document.body.style.cssText='background:#0e0a0f;color:#f48fb1;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;text-align:center;';
+    document.body.innerHTML='<div>🌸<br><br>3D preview works best when opened from your local Blossom Games file.</div>';
+  }
+})();
+<\/script>"></iframe>
   <div id="shield"></div>
 </div></div></div>
 <div id="coords">rotX: -15° · rotY: 20°</div>
 <div id="hint">scroll to zoom · click to interact · click outside to resume</div>
 <script>
 (function(){
-  const stage = document.getElementById('stage'),
-        card  = document.getElementById('card'),
-        co    = document.getElementById('coords'),
-        hint  = document.getElementById('hint');
-
-  let rX = -15, rY = 20, z = 1;
-  let drag = false, lx = 0, ly = 0;
-  let iframeFocused = false;
-  let mdOnCard = false, mdX = 0, mdY = 0;
-
-  function apply(){
-    stage.style.transform = `rotateX(${rX}deg) rotateY(${rY}deg) scale(${z})`;
-    co.textContent = `rotX:${rX.toFixed(1)}° · rotY:${rY.toFixed(1)}°`;
-  }
+  const stage=document.getElementById('stage'),card=document.getElementById('card'),co=document.getElementById('coords'),hint=document.getElementById('hint');
+  let rX=-15,rY=20,z=1,drag=false,lx=0,ly=0,iframeFocused=false,mdOnCard=false,mdX=0,mdY=0;
+  function apply(){stage.style.transform=`rotateX(${rX}deg) rotateY(${rY}deg) scale(${z})`;co.textContent=`rotX:${rX.toFixed(1)}° · rotY:${rY.toFixed(1)}°`;}
   apply();
-
-  function isOverCard(e){
-    const r = card.getBoundingClientRect();
-    return e.clientX >= r.left && e.clientX <= r.right &&
-           e.clientY >= r.top  && e.clientY <= r.bottom;
-  }
-
-  function focusIframe(val){
-    iframeFocused = val;
-    card.classList.toggle('iframe-focused', val);
-    hint.textContent = val
-      ? 'click outside to resume 3D controls  ·  Esc to exit'
-      : 'scroll to zoom  ·  click to interact  ·  click outside to resume';
-  }
-
-  window.addEventListener('mousedown', e => {
-    if (isOverCard(e)) {
-      mdOnCard = true; mdX = e.clientX; mdY = e.clientY;
-      if (!iframeFocused) {
-        drag = true; lx = e.clientX; ly = e.clientY;
-        document.body.classList.add('dragging');
-        e.preventDefault();
-      }    } else {
-      mdOnCard = false;
-      if (iframeFocused) focusIframe(false);
-      drag = true; lx = e.clientX; ly = e.clientY;
-      document.body.classList.add('dragging');
-      e.preventDefault();
-    }
-  }, true);
-
-  window.addEventListener('mousemove', e => {
-    if (!drag) return;
-    rY += (e.clientX - lx) * .45;
-    rX -= (e.clientY - ly) * .45;
-    rX = Math.max(-85, Math.min(85, rX));
-    lx = e.clientX; ly = e.clientY;
-    apply();
-  });
-
-  window.addEventListener('mouseup', e => {
-    if (drag) {
-      drag = false;
-      document.body.classList.remove('dragging');
-      if (mdOnCard && !iframeFocused) {
-        const dx = e.clientX - mdX, dy = e.clientY - mdY;
-        if (Math.sqrt(dx*dx + dy*dy) < 5) focusIframe(true);
-      }
-    }
-    mdOnCard = false;
-  });
-
-  window.addEventListener('mouseleave', () => {
-    if (drag){ drag = false; document.body.classList.remove('dragging'); }
-  });
-
-  window.addEventListener('wheel', e => {
-    if (iframeFocused) return;
-    e.preventDefault();
-    z -= e.deltaY * .001;
-    z = Math.max(.2, Math.min(3, z));
-    apply();
-  }, {passive: false});
-  window.addEventListener('keydown', e => {
-    if (e.key === 'Escape') focusIframe(false);
-    if ((e.key === 'r' || e.key === 'R') && !iframeFocused){ rX=-15; rY=20; z=1; apply(); }
-  });
+  function isOverCard(e){const r=card.getBoundingClientRect();return e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom;}
+  function focusIframe(v){iframeFocused=v;card.classList.toggle('iframe-focused',v);hint.textContent=v?'click outside to resume · Esc to exit':'scroll to zoom · click to interact · click outside to resume';}
+  window.addEventListener('mousedown',e=>{
+    if(isOverCard(e)){mdOnCard=true;mdX=e.clientX;mdY=e.clientY;if(!iframeFocused){drag=true;lx=e.clientX;ly=e.clientY;document.body.classList.add('dragging');e.preventDefault();}}
+    else{mdOnCard=false;if(iframeFocused)focusIframe(false);drag=true;lx=e.clientX;ly=e.clientY;document.body.classList.add('dragging');e.preventDefault();}
+  },true);
+  window.addEventListener('mousemove',e=>{if(!drag)return;rY+=(e.clientX-lx)*.42;rX-=(e.clientY-ly)*.42;rX=Math.max(-85,Math.min(85,rX));lx=e.clientX;ly=e.clientY;apply();});
+  window.addEventListener('mouseup',e=>{if(drag){drag=false;document.body.classList.remove('dragging');if(mdOnCard&&!iframeFocused){const dx=e.clientX-mdX,dy=e.clientY-mdY;if(Math.sqrt(dx*dx+dy*dy)<5)focusIframe(true);}}mdOnCard=false;});
+  window.addEventListener('mouseleave',()=>{if(drag){drag=false;document.body.classList.remove('dragging');}});
+  window.addEventListener('wheel',e=>{if(iframeFocused)return;e.preventDefault();z-=e.deltaY*.001;z=Math.max(.2,Math.min(3,z));apply();},{passive:false});
+  window.addEventListener('keydown',e=>{if(e.key==='Escape')focusIframe(false);if((e.key==='r'||e.key==='R')&&!iframeFocused){rX=-15;rY=20;z=1;apply();}});
 })();
 </script>
 </body>
