@@ -229,7 +229,6 @@
         @keyframes spin { to { transform: rotate(360deg); } }
 
         /* ── STATUS HUD ── */
-        /* FIX: moved left to 72px so it clears the sidebar */
         .status-hud {
             position: absolute; bottom: 25px; left: 72px;
             background: rgba(244,143,177,0.04); border: 1px solid var(--border);
@@ -509,7 +508,7 @@
                     </div>
                     <div style="padding-top:14px;border-top:1px solid var(--border);margin-bottom:14px;">
                         <p style="font-size:10px;color:var(--text-dim);margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;">Play Now Button Target</p>
-                        <div class="input-group" style="margin-bottom:0;"><label>Navigate to</label><select id="init-target-select" onchange="saveConfig()"><option value="games">Games</option><option value="home">Home</option><option value="ai">AI Chat</option><option value="customapps">Custom Apps</option><option value="marketplace">Marketplace</option><option value="settings">Settings</option></select></div>
+                        <div class="input-group" style="margin-bottom:0;"><label>Navigate to</label><select id="init-target-select" onchange="saveConfig()"><option value="games">Games</option><option value="home">Home</option><option value="ai">AI Chat</option><option value="settings">Settings</option></select></div>
                     </div>
                     <div style="padding-top:14px;border-top:1px solid var(--border);">
                         <p style="font-size:10px;color:var(--text-dim);margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;">Clock Format</p>
@@ -531,7 +530,7 @@
                         <div id="custom-shortcuts-list" style="max-height:130px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;"></div>
                         <div class="custom-shortcut-row" style="margin-top:10px;">
                             <input type="text" class="shortcut-input" id="new-sc-key" placeholder="KEY" readonly style="width:60px;flex-shrink:0;" onclick="captureNewShortcutKey()">
-                            <select id="new-sc-action" style="flex:1;margin:0;padding:10px 12px;"><option value="home">Home</option><option value="games">Games</option><option value="ai">AI Chat</option><option value="customapps">Custom Apps</option><option value="marketplace">Marketplace</option><option value="settings">Settings</option></select>
+                            <select id="new-sc-action" style="flex:1;margin:0;padding:10px 12px;"><option value="home">Home</option><option value="games">Games</option><option value="ai">AI Chat</option><option value="settings">Settings</option></select>
                             <button class="btn-small run" onclick="addCustomShortcut()" style="white-space:nowrap;flex-shrink:0;">+ ADD</button>
                         </div>
                     </div>
@@ -540,7 +539,7 @@
 
                 <div class="settings-card">
                     <h3>Data Management</h3>
-                    <p style="font-size:0.82rem;color:var(--text-dim);margin-bottom:15px;">Export/import your apps and settings.</p>
+                    <p style="font-size:0.82rem;color:var(--text-dim);margin-bottom:15px;">Export/import your settings.</p>
                     <div style="display:flex;flex-direction:column;gap:10px;">
                         <button class="btn-start" onclick="exportData()" style="margin-top:0;">EXPORT CONFIG</button>
                         <button class="btn-start" onclick="document.getElementById('import-file').click()" style="margin-top:0;background:#2a1a22;color:var(--text-dim);box-shadow:none;">IMPORT CONFIG</button>
@@ -578,7 +577,6 @@
                 <strong id="zoneName">Game</strong>
                 <div class="zone-controls">
                     <button class="zone-control-btn" onclick="fullscreenZone()">⛶ Fullscreen</button>
-                    <button class="zone-control-btn" onclick="downloadZone()">↓ Download</button>
                     <button class="zone-control-btn" onclick="closeZone()">✕ Close</button>
                 </div>
             </div>
@@ -647,20 +645,17 @@
         { id: 'home', name: 'Home', svg: `<svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>` },
         { id: 'games', name: 'Games', svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 7C4 7 2 8.5 2 11c0 2 .5 3.8 1.5 5.2C4.4 17.5 5.3 18 6.2 18c.7 0 1.3-.3 2.1-.8l.8-.6C9.7 16.2 10.8 16 12 16s2.3.2 2.9.6l.8.6c.8.5 1.4.8 2.1.8.9 0 1.8-.5 2.7-1.8C21.5 14.8 22 13 22 11c0-2.5-2-4-3.5-4H5.5z"/><line x1="7" y1="10.5" x2="7" y2="13.5"/><line x1="5.5" y1="12" x2="8.5" y2="12"/><circle cx="15.5" cy="10.5" r=".75" fill="currentColor"/><circle cx="17.5" cy="12.5" r=".75" fill="currentColor"/></svg>` },
         { id: 'ai', name: 'AI Chat', svg: `<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>` },
-        { id: 'customapps', name: 'Custom Apps', svg: `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><path d="M3 14h7v7H3z"/></svg>` },
         { id: 'settings', name: 'Settings', svg: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 9z"/></svg>` }
     ];
-
-    let customApps = JSON.parse(localStorage.getItem('bg_apps')) || [];
     let editingAppId = null;
     let shortcuts = JSON.parse(localStorage.getItem('bg_shortcuts')) || { home: 'H', games: 'G', panic: 'P', custom: [] };
     if (!shortcuts.custom) shortcuts.custom = [];
-    let navOrder = JSON.parse(localStorage.getItem('bg_nav_order')) || { top: ['home','games','ai','customapps'], bottom: ['marketplace','settings'] };
+    let navOrder = JSON.parse(localStorage.getItem('bg_nav_order')) || { top: ['home','games','ai'], bottom: ['settings'] };
     let customPresets = JSON.parse(localStorage.getItem('bg_custom_presets')) || [];
 
     // ═══ NAVIGATION ═══
     function nav(page, appData = null) {
-        const sections = ['home-content','customapps','settings','games-content','ai-content'];
+        const sections = ['home-content','settings','games-content','ai-content'];
         sections.forEach(id => { const el = document.getElementById(id); if(el) el.style.display = 'none'; });
         const hud = document.getElementById('home-hud');
         const frame = document.getElementById('app-frame');
@@ -680,9 +675,6 @@
         } else if(page === 'settings') {
             document.getElementById('settings').style.display = 'block';
             renderWordsEditor(); renderCustomShortcuts();
-        } else if(page === 'customapps') {
-            document.getElementById('customapps').style.display = 'block';
-            renderAppList();
         } else if(page === 'games') {
             document.getElementById('games-content').style.display = 'flex';
             if(!gamesLoaded){ gamesLoaded=true; gamesListZones(); }
@@ -705,8 +697,7 @@
         topGroup.innerHTML = ''; bottomGroup.innerHTML = '';
         function createNavItem(id) {
             let itemData, isCustom = false;
-            if(id.startsWith('app_')) { const appId = id.replace('app_',''); itemData = customApps.find(a => a.id === appId); isCustom = true; }
-            else itemData = systemPages.find(p => p.id === id);
+            itemData = systemPages.find(p => p.id === id);
             if(!itemData) return null;
             const div = document.createElement('div');
             div.id = isCustom ? `nav-app-${itemData.id}` : `nav-${itemData.id}`;
@@ -805,7 +796,7 @@
         const list = document.getElementById('custom-shortcuts-list');
         if(!list) return;
         list.innerHTML = '';
-        const names = { home:'Home', games:'Games', ai:'AI Chat', customapps:'Custom Apps', marketplace:'Marketplace', settings:'Settings' };
+        const names = { home:'Home', games:'Games', ai:'AI Chat', settings:'Settings' };
         shortcuts.custom.forEach((sc,i) => {
             const row = document.createElement('div');
             row.className = 'custom-shortcut-row';
@@ -967,13 +958,13 @@
 
     // ═══ EXPORT / IMPORT ═══
     function exportData() {
-        const data = { apps:customApps, shortcuts, config:JSON.parse(localStorage.getItem('bg_config')), navOrder, words, customPresets };
+        const data = { shortcuts, config:JSON.parse(localStorage.getItem('bg_config')), navOrder, words, customPresets };
         const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
         const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=`blossom_games_backup_${new Date().toISOString().slice(0,10)}.json`; a.click();
     }
     function importData(input) {
         const file=input.files[0]; if(!file) return;
-        const reader=new FileReader(); reader.onload=e=>{ try{ const d=JSON.parse(e.target.result); if(d.apps){customApps=d.apps;localStorage.setItem('bg_apps',JSON.stringify(customApps));} if(d.shortcuts){shortcuts=d.shortcuts;localStorage.setItem('bg_shortcuts',JSON.stringify(shortcuts));} if(d.config) localStorage.setItem('bg_config',JSON.stringify(d.config)); if(d.navOrder){navOrder=d.navOrder;localStorage.setItem('bg_nav_order',JSON.stringify(navOrder));} if(d.words&&d.words.length){words=d.words;localStorage.setItem('bg_words',JSON.stringify(words));} alert("Import successful! Reloading…"); location.reload(); }catch{alert("Invalid file.");} };
+        const reader=new FileReader(); reader.onload=e=>{ try{ const d=JSON.parse(e.target.result); if(d.shortcuts){shortcuts=d.shortcuts;localStorage.setItem('bg_shortcuts',JSON.stringify(shortcuts));} if(d.config) localStorage.setItem('bg_config',JSON.stringify(d.config)); if(d.navOrder){navOrder=d.navOrder;localStorage.setItem('bg_nav_order',JSON.stringify(navOrder));} if(d.words&&d.words.length){words=d.words;localStorage.setItem('bg_words',JSON.stringify(words));} alert("Import successful! Reloading…"); location.reload(); }catch{alert("Invalid file.");} };
         reader.readAsText(file);
     }
 
@@ -1147,7 +1138,6 @@
         fetch(url+"?t="+Date.now()).then(r=>r.text()).then(html=>{ html=cleanHTML(html); if(!zoneFrame||zoneFrame.contentDocument===null){zoneFrame=document.createElement("iframe");zoneFrame.id="zoneFrame";zoneViewer.appendChild(zoneFrame);} zoneFrame.contentDocument.open(); zoneFrame.contentDocument.write(html); zoneFrame.contentDocument.close(); document.getElementById('zoneName').textContent=file.name; zoneViewer.dataset.zoneId=file.id; zoneViewer.style.display="flex"; }).catch(e=>alert("Failed to load: "+e));
     }
     function closeZone() { zoneViewer.style.display="none"; if(zoneFrame&&zoneFrame.parentNode) zoneViewer.removeChild(zoneFrame); }
-    function downloadZone() { const zone=zones.find(z=>z.id+''===zoneViewer.dataset.zoneId); fetch(zone.url.replace("{HTML_URL}",htmlURL)+"?t="+Date.now()).then(r=>r.text()).then(t=>{t=cleanHTML(t); const blob=new Blob([t],{type:"text/plain;charset=utf-8"}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=zone.name+".html"; a.click(); URL.revokeObjectURL(a.href);}); }
     function fullscreenZone() { if(zoneFrame.requestFullscreen) zoneFrame.requestFullscreen(); else if(zoneFrame.webkitRequestFullscreen) zoneFrame.webkitRequestFullscreen(); }
     window.addEventListener('resize',()=>{ if(featuredGames.length>0) gamesRenderFeatured(); });
 
@@ -1156,7 +1146,6 @@
 
     window.onload = () => {
         renderPresets();
-        // FIX: icon-library element doesn't exist in the HTML, so we skip it safely
         const iconLib = document.getElementById('icon-library');
         if (iconLib) {
             svgLibrary.forEach(svg=>{ const opt=document.createElement('div'); opt.className='icon-opt'; opt.innerHTML=svg; opt.onclick=()=>{ document.querySelectorAll('.icon-opt').forEach(o=>o.classList.remove('selected')); opt.classList.add('selected'); document.getElementById('new-app-svg').value=svg; }; iconLib.appendChild(opt); });
