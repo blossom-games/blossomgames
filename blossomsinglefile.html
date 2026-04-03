@@ -325,39 +325,6 @@
             </div>
         </section>
 
-        <!-- CUSTOM APPS -->
-        <section id="customapps" class="view-section">
-            <div class="settings-header">
-                <h2>Custom Tools</h2>
-                <p style="color:var(--text-dim)">Manage and run your locally stored HTML apps.</p>
-            </div>
-            <div class="settings-card">
-                <h3 id="app-editor-title">Create New App</h3>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-                    <div>
-                        <div class="input-group"><label>App Name</label><input type="text" id="new-app-name" placeholder="My App"><div id="name-error" class="error-msg">Name already exists.</div></div>
-                        <div class="input-group"><label>Sidebar Icon</label><div class="icon-selector" id="icon-library"></div><input type="text" id="new-app-svg" placeholder="Or paste SVG code"></div>
-                    </div>
-                    <div>
-                        <div class="input-group"><label>Content (URL or HTML)</label><textarea id="new-app-html" placeholder="https://example.com OR &lt;div&gt;Hello&lt;/div&gt;"></textarea></div>
-                        <div class="input-group"><label><input type="checkbox" id="new-app-pin"> Pin to Sidebar</label></div>
-                        <div style="display:flex;gap:10px;">
-                            <button id="save-app-btn" class="btn-start" onclick="saveNewApp()" style="flex:1;">INSTALL APP</button>
-                            <button id="cancel-edit-btn" class="btn-start" onclick="clearAppForm()" style="flex:1;background:#2a1a22;color:var(--text-dim);box-shadow:none;display:none;">CANCEL</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="app-grid" id="installed-apps"></div>
-        </section>
-
-        <!-- MARKETPLACE -->
-        <section id="marketplace" class="view-section">
-            <div class="settings-header"><h2>App Registry</h2><p style="color:var(--text-dim)">Discover community-built tools and games.</p></div>
-            <input type="text" class="search-bar" id="market-search" placeholder="Search apps…" oninput="filterMarketplace()">
-            <div class="app-grid" id="market-apps"></div>
-        </section>
-
         <!-- SETTINGS -->
         <section id="settings" class="view-section">
             <div class="settings-header"><h2>Settings</h2><p style="color:var(--text-dim)">Customize your Blossom Games experience.</p></div>
@@ -570,12 +537,10 @@
         { id: 'games', name: 'Games', svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 7C4 7 2 8.5 2 11c0 2 .5 3.8 1.5 5.2C4.4 17.5 5.3 18 6.2 18c.7 0 1.3-.3 2.1-.8l.8-.6C9.7 16.2 10.8 16 12 16s2.3.2 2.9.6l.8.6c.8.5 1.4.8 2.1.8.9 0 1.8-.5 2.7-1.8C21.5 14.8 22 13 22 11c0-2.5-2-4-3.5-4H5.5z"/><line x1="7" y1="10.5" x2="7" y2="13.5"/><line x1="5.5" y1="12" x2="8.5" y2="12"/><circle cx="15.5" cy="10.5" r=".75" fill="currentColor"/><circle cx="17.5" cy="12.5" r=".75" fill="currentColor"/></svg>` },
         { id: 'ai', name: 'AI Chat', svg: `<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>` },
         { id: 'customapps', name: 'Custom Apps', svg: `<svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><path d="M3 14h7v7H3z"/></svg>` },
-        { id: 'marketplace', name: 'Marketplace', svg: `<svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>` },
         { id: 'settings', name: 'Settings', svg: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 9z"/></svg>` }
     ];
 
     let customApps = JSON.parse(localStorage.getItem('bg_apps')) || [];
-    let marketplaceApps = [];
     let editingAppId = null;
     let shortcuts = JSON.parse(localStorage.getItem('bg_shortcuts')) || { home: 'H', games: 'G', panic: 'P', custom: [] };
     if (!shortcuts.custom) shortcuts.custom = [];
@@ -584,7 +549,7 @@
 
     // ═══ NAVIGATION ═══
     function nav(page, appData = null) {
-        const sections = ['home-content','customapps','marketplace','settings','games-content','ai-content'];
+        const sections = ['home-content','customapps','settings','games-content','ai-content'];
         sections.forEach(id => { const el = document.getElementById(id); if(el) el.style.display = 'none'; });
         const hud = document.getElementById('home-hud');
         const frame = document.getElementById('app-frame');
@@ -607,9 +572,6 @@
         } else if(page === 'customapps') {
             document.getElementById('customapps').style.display = 'block';
             renderAppList();
-        } else if(page === 'marketplace') {
-            document.getElementById('marketplace').style.display = 'block';
-            renderMarketplace(marketplaceApps); fetchMarketplace();
         } else if(page === 'games') {
             document.getElementById('games-content').style.display = 'flex';
             if(!gamesLoaded){ gamesLoaded=true; gamesListZones(); }
@@ -624,119 +586,6 @@
         }
     }
 
-    // ═══ MARKETPLACE ═══
-    async function fetchMarketplace() {
-        if(marketplaceApps.length > 0) return;
-        try {
-            const apiURL = "https://api.github.com/repos/virtuan4-max/ghostlink-apps/contents/apps";
-            const response = await fetch(apiURL);
-            const files = await response.json();
-            const promises = files.filter(f => f.name.endsWith('.json')).map(f => fetch(f.download_url).then(r => r.json()));
-            marketplaceApps = await Promise.all(promises);
-            renderMarketplace(marketplaceApps);
-        } catch(e) {
-            document.getElementById('market-apps').innerHTML = '<p style="color:rgba(240,98,146,0.8)">Failed to load registry.</p>';
-        }
-    }
-    function renderMarketplace(apps) {
-        const c = document.getElementById('market-apps');
-        if(!apps || !apps.length) return;
-        c.innerHTML = '';
-        apps.forEach((app, i) => {
-            const installed = customApps.some(a => a.name === app.name);
-            const card = document.createElement('div');
-            card.className = 'app-card';
-            card.style.animationDelay = `${i*0.05}s`;
-            card.innerHTML = `<div class="app-card-header"><div class="app-card-icon">${app.svg}</div><div class="app-card-title">${app.name}</div></div><div class="app-card-desc">${app.description||'No description.'}</div><p style="font-size:10px;color:var(--accent)">by ${app.author||'Anonymous'}</p><div class="app-actions">${installed?'<button class="btn-small installed">INSTALLED</button>':`<button class="btn-small run" onclick='installFromMarket("${app.name}")'>INSTALL</button>`}</div>`;
-            c.appendChild(card);
-        });
-    }
-    function filterMarketplace() {
-        const q = document.getElementById('market-search').value.toLowerCase();
-        renderMarketplace(marketplaceApps.filter(a => a.name.toLowerCase().includes(q) || (a.description||'').toLowerCase().includes(q)));
-    }
-    function installFromMarket(name) {
-        const app = marketplaceApps.find(a => a.name === name);
-        if(!app) return;
-        const newApp = { id:'app_'+Date.now(), name:app.name, content:app.url, svg:app.svg, pinned:true };
-        customApps.push(newApp);
-        localStorage.setItem('bg_apps', JSON.stringify(customApps));
-        navOrder.top.push(`app_${newApp.id}`);
-        localStorage.setItem('bg_nav_order', JSON.stringify(navOrder));
-        renderMarketplace(marketplaceApps); updateSidebar(); nav('run_custom', newApp);
-    }
-
-    // ═══ CUSTOM APPS ═══
-    function renderAppList() {
-        const c = document.getElementById('installed-apps');
-        c.innerHTML = '';
-        customApps.forEach(app => {
-            const card = document.createElement('div');
-            card.className = 'app-card';
-            card.innerHTML = `<div class="app-card-header"><div class="app-card-icon">${app.svg}</div><div class="app-card-title">${app.name}</div></div><div class="app-actions"><button class="btn-small run" onclick='runSavedApp("${app.id}")'>LAUNCH</button><button class="btn-small" onclick='editApp("${app.id}")'>EDIT</button><button class="btn-small" onclick="deleteApp('${app.id}')" style="color:#f06292;">REMOVE</button></div>`;
-            c.appendChild(card);
-        });
-    }
-    function runSavedApp(id) { const app = customApps.find(a => a.id === id); if(app) nav('run_custom', app); }
-    function editApp(id) {
-        const app = customApps.find(a => a.id === id);
-        if(!app) return;
-        editingAppId = id;
-        document.getElementById('new-app-name').value = app.name;
-        document.getElementById('new-app-html').value = app.content;
-        document.getElementById('new-app-svg').value = app.svg;
-        document.getElementById('new-app-pin').checked = app.pinned;
-        document.getElementById('app-editor-title').textContent = 'Edit App: '+app.name;
-        document.getElementById('save-app-btn').textContent = 'UPDATE APP';
-        document.getElementById('cancel-edit-btn').style.display = 'block';
-        document.getElementById('customapps').scrollTo({top:0,behavior:'smooth'});
-    }
-    function clearAppForm() {
-        editingAppId = null;
-        ['new-app-name','new-app-html','new-app-svg'].forEach(id => document.getElementById(id).value = '');
-        document.getElementById('new-app-pin').checked = false;
-        document.getElementById('name-error').style.display = 'none';
-        document.getElementById('app-editor-title').textContent = 'Create New App';
-        document.getElementById('save-app-btn').textContent = 'INSTALL APP';
-        document.getElementById('cancel-edit-btn').style.display = 'none';
-        document.querySelectorAll('.icon-opt').forEach(o => o.classList.remove('selected'));
-    }
-    function saveNewApp() {
-        const name = document.getElementById('new-app-name').value.trim();
-        const content = document.getElementById('new-app-html').value;
-        const svg = document.getElementById('new-app-svg').value || svgLibrary[0];
-        const pinned = document.getElementById('new-app-pin').checked;
-        const errEl = document.getElementById('name-error');
-        if(!name || !content) return;
-        const isDuplicate = customApps.some(a => a.name.toLowerCase() === name.toLowerCase() && a.id !== editingAppId);
-        if(isDuplicate){ errEl.style.display='block'; return; }
-        errEl.style.display = 'none';
-        let savedApp;
-        if(editingAppId) {
-            const idx = customApps.findIndex(a => a.id === editingAppId);
-            const wasPinned = customApps[idx].pinned;
-            customApps[idx] = {...customApps[idx], name, content, svg, pinned};
-            savedApp = customApps[idx];
-            if(pinned && !wasPinned && !navOrder.top.includes(`app_${savedApp.id}`)) navOrder.top.push(`app_${savedApp.id}`);
-            else if(!pinned && wasPinned) { navOrder.top = navOrder.top.filter(i => i !== `app_${savedApp.id}`); navOrder.bottom = navOrder.bottom.filter(i => i !== `app_${savedApp.id}`); }
-        } else {
-            savedApp = { id:'app_'+Date.now(), name, content, svg, pinned };
-            customApps.push(savedApp);
-            if(pinned) navOrder.top.push(`app_${savedApp.id}`);
-        }
-        localStorage.setItem('bg_apps', JSON.stringify(customApps));
-        localStorage.setItem('bg_nav_order', JSON.stringify(navOrder));
-        updateSidebar(); clearAppForm(); renderAppList(); renderMarketplace(marketplaceApps); nav('run_custom', savedApp);
-    }
-    function deleteApp(id) {
-        customApps = customApps.filter(a => a.id !== id);
-        navOrder.top = navOrder.top.filter(i => i !== `app_${id}`);
-        navOrder.bottom = navOrder.bottom.filter(i => i !== `app_${id}`);
-        localStorage.setItem('bg_apps', JSON.stringify(customApps));
-        localStorage.setItem('bg_nav_order', JSON.stringify(navOrder));
-        if(editingAppId === id) clearAppForm();
-        renderAppList(); renderMarketplace(marketplaceApps); updateSidebar();
-    }
 
     // ═══ SIDEBAR ═══
     function updateSidebar() {
