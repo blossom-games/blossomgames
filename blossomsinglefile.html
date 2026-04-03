@@ -118,19 +118,124 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
         /* ── HOME ── */
-        #home-content { position: relative; display: flex; flex-direction: row; align-items: center; justify-content: space-between; gap: 50px; }
-        .hero { flex: 1; }
+        #home-content {
+            position: relative; display: grid;
+            grid-template-columns: 1fr auto;
+            grid-template-rows: auto auto;
+            gap: 28px 50px;
+            align-items: start;
+        }
+        .hero { grid-column: 1; grid-row: 1; }
         .hero h1 { font-size: clamp(2rem, 5vw, 4.2rem); line-height: 1.1; margin-bottom: 10px; font-weight: 700; }
         .hero-gradient { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .clock-container { text-align: right; flex-shrink: 0; }
-        #home-clock { font-size: clamp(3.5rem, 6vw, 6rem); font-weight: 700; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 20px rgba(244,143,177,0.4)); margin-bottom: -8px; }
+        .clock-container { grid-column: 2; grid-row: 1; text-align: right; flex-shrink: 0; }
+        #home-clock { font-size: clamp(3rem, 5vw, 5.5rem); font-weight: 700; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 20px rgba(244,143,177,0.4)); margin-bottom: -8px; }
         #home-date { font-size: 0.85rem; color: var(--text-dim); letter-spacing: 3px; text-transform: uppercase; }
 
+        /* ── WEATHER WIDGET ── */
+        .weather-widget {
+            grid-column: 1 / -1;
+            grid-row: 2;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 18px 22px;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            animation: fadeIn 0.5s ease;
+            flex-wrap: wrap;
+        }
+        .weather-main {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-shrink: 0;
+        }
+        .weather-icon {
+            font-size: 2.8rem;
+            line-height: 1;
+            filter: drop-shadow(0 0 10px rgba(244,143,177,0.3));
+        }
+        .weather-temp {
+            font-size: 2.4rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+        .weather-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .weather-desc {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-transform: capitalize;
+        }
+        .weather-location {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .weather-divider {
+            width: 1px;
+            height: 48px;
+            background: var(--border);
+            flex-shrink: 0;
+        }
+        .weather-details {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .weather-detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .weather-detail-label {
+            font-size: 0.68rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .weather-detail-val {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .weather-loading {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .weather-loading::before {
+            content: '';
+            width: 14px; height: 14px;
+            border: 2px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── STATUS HUD ── */
+        /* FIX: moved left to 72px so it clears the sidebar */
         .status-hud {
-            position: absolute; bottom: 25px; left: 0;
+            position: absolute; bottom: 25px; left: 72px;
             background: rgba(244,143,177,0.04); border: 1px solid var(--border);
             padding: 14px 18px; border-radius: 16px; font-size: 11px; color: var(--text-dim);
             line-height: 2; pointer-events: none; min-width: 155px; backdrop-filter: blur(10px);
+            z-index: 5;
         }
         .bat-container { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; }
         .bat-shell { width: 34px; height: 16px; border: 2px solid var(--text-dim); border-radius: 4px; position: relative; padding: 2px; }
@@ -302,6 +407,7 @@
         <div class="sidebar-bottom" id="sidebar-nav-bottom"></div>
     </aside>
 
+    <!-- FIX: HUD now starts at left:72px so it clears the sidebar -->
     <div class="status-hud" id="home-hud">
         <div class="bat-container">
             <div class="bat-shell"><div class="bat-level" id="bat-fill"></div></div>
@@ -322,6 +428,10 @@
             <div class="clock-container">
                 <div id="home-clock">00:00:00</div>
                 <div id="home-date">LOADING...</div>
+            </div>
+            <!-- WEATHER WIDGET - spans full width below hero + clock -->
+            <div class="weather-widget" id="weather-widget">
+                <div class="weather-loading" id="weather-loading">Fetching weather…</div>
             </div>
         </section>
 
@@ -404,7 +514,8 @@
                     <div style="padding-top:14px;border-top:1px solid var(--border);">
                         <p style="font-size:10px;color:var(--text-dim);margin-bottom:12px;text-transform:uppercase;letter-spacing:1px;">Clock Format</p>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-                            <div class="input-group" style="margin-bottom:0;"><label>Time</label><select id="clock-format-select" onchange="saveConfig();updateClock()"><option value="24h-s">24h w/ seconds</option><option value="24h">24h</option><option value="12h-s">12h w/ seconds</option><option value="12h">12h</option><option value="off">Hidden</option></select></div>
+                            <!-- FIX: default value changed to 12h-s -->
+                            <div class="input-group" style="margin-bottom:0;"><label>Time</label><select id="clock-format-select" onchange="saveConfig();updateClock()"><option value="12h-s" selected>12h w/ seconds</option><option value="12h">12h</option><option value="24h-s">24h w/ seconds</option><option value="24h">24h</option><option value="off">Hidden</option></select></div>
                             <div class="input-group" style="margin-bottom:0;"><label>Date</label><select id="date-format-select" onchange="saveConfig();updateClock()"><option value="full">Full</option><option value="short">Short</option><option value="numeric">Numeric</option><option value="iso">ISO</option><option value="off">Hidden</option></select></div>
                         </div>
                     </div>
@@ -564,7 +675,7 @@
         if(navItem) navItem.classList.add('active');
 
         if(page === 'home') {
-            document.getElementById('home-content').style.display = 'flex';
+            document.getElementById('home-content').style.display = 'grid';
             if(hud) hud.style.display = 'block';
         } else if(page === 'settings') {
             document.getElementById('settings').style.display = 'block';
@@ -729,7 +840,6 @@
     function openAboutBlankCloak() {
         const tab = window.open('about:blank','_blank');
         if(!tab){ alert('Pop-up blocked!'); return; }
-        const script = `<script>(async()=>{const r=await fetch('about:blank');})();<\/script>`;
         const html = `<script>(async()=>{const url="https://cdn.jsdelivr.net/gh/blossom-games/blossomgames@main/blossomsinglefile.html?v="+Date.now();const r=await fetch(url);const h=await r.text();document.open();document.write(h);document.close();})();<\/script>`;
         tab.document.write(html); tab.document.close();
     }
@@ -837,7 +947,7 @@
             bgUrl:document.getElementById('bg-url').value, bgBlur:document.getElementById('bg-blur-input').value,
             bgBright:document.getElementById('bg-bright-input').value, font:document.getElementById('font-select').value,
             initTarget:document.getElementById('init-target-select')?.value||'games',
-            clockFormat:document.getElementById('clock-format-select')?.value||'24h-s',
+            clockFormat:document.getElementById('clock-format-select')?.value||'12h-s',
             dateFormat:document.getElementById('date-format-select')?.value||'full',
             textPrimary:document.getElementById('text-primary-picker')?.value||'#fce4ec',
             textDim:document.getElementById('text-dim-picker')?.value||'#b39dac'
@@ -870,7 +980,7 @@
     // ═══ CLOCK ═══
     function updateClock() {
         const now=new Date(); const clockEl=document.getElementById('home-clock'); const dateEl=document.getElementById('home-date');
-        const cf=document.getElementById('clock-format-select')?.value||'24h-s'; const df=document.getElementById('date-format-select')?.value||'full';
+        const cf=document.getElementById('clock-format-select')?.value||'12h-s'; const df=document.getElementById('date-format-select')?.value||'full';
         if(clockEl){ let t; if(cf==='24h-s') t=now.toLocaleTimeString('en-US',{hour12:false,hour:'2-digit',minute:'2-digit',second:'2-digit'}); else if(cf==='24h') t=now.toLocaleTimeString('en-US',{hour12:false,hour:'2-digit',minute:'2-digit'}); else if(cf==='12h-s') t=now.toLocaleTimeString('en-US',{hour12:true,hour:'2-digit',minute:'2-digit',second:'2-digit'}); else if(cf==='12h') t=now.toLocaleTimeString('en-US',{hour12:true,hour:'2-digit',minute:'2-digit'}); else t=''; clockEl.textContent=t; clockEl.style.display=cf==='off'?'none':''; }
         if(dateEl){ let d; if(df==='full') d=now.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'}).toUpperCase(); else if(df==='short') d=now.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'}).toUpperCase(); else if(df==='numeric') d=now.toLocaleDateString('en-US',{year:'numeric',month:'2-digit',day:'2-digit'}); else if(df==='iso') d=now.toISOString().slice(0,10); else d=''; dateEl.textContent=d; dateEl.style.display=df==='off'?'none':''; }
     }
@@ -903,6 +1013,78 @@
         frame.contentWindow.postMessage({type:'GHOSTLINK_THEME_DATA',theme:{accent:s.getPropertyValue('--accent').trim(),bg:s.getPropertyValue('--bg').trim(),font:s.getPropertyValue('--font').trim()}},'*');
     }
     window.addEventListener('message',e=>{ if(e.data?.type==='GHOSTLINK_QUERY_THEME') sendThemeToIframe(); });
+
+    // ═══ WEATHER ═══
+    // WMO weather code → emoji + description
+    const WMO_CODES = {
+        0:'☀️|Clear sky', 1:'🌤️|Mainly clear', 2:'⛅|Partly cloudy', 3:'☁️|Overcast',
+        45:'🌫️|Foggy', 48:'🌫️|Icy fog',
+        51:'🌦️|Light drizzle', 53:'🌦️|Drizzle', 55:'🌧️|Heavy drizzle',
+        61:'🌧️|Light rain', 63:'🌧️|Rain', 65:'🌧️|Heavy rain',
+        71:'🌨️|Light snow', 73:'🌨️|Snow', 75:'❄️|Heavy snow',
+        77:'🌨️|Snow grains',
+        80:'🌦️|Light showers', 81:'🌧️|Showers', 82:'⛈️|Heavy showers',
+        85:'🌨️|Snow showers', 86:'❄️|Heavy snow showers',
+        95:'⛈️|Thunderstorm', 96:'⛈️|Thunderstorm w/ hail', 99:'⛈️|Severe thunderstorm'
+    };
+
+    async function loadWeather() {
+        const widget = document.getElementById('weather-widget');
+        if (!widget) return;
+        try {
+            // Step 1: get approx location from ipinfo.io
+            const geoRes = await fetch('https://ipinfo.io/json');
+            const geo = await geoRes.json();
+            const [lat, lon] = geo.loc.split(',').map(Number);
+            const city = geo.city || geo.region || 'Unknown';
+            const region = geo.region || '';
+            const locationLabel = region && region !== city ? `${city}, ${region}` : city;
+
+            // Step 2: fetch weather from open-meteo (free, no key needed)
+            const wRes = await fetch(
+                `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
+                `&current=temperature_2m,apparent_temperature,relative_humidity_2m,wind_speed_10m,weathercode` +
+                `&temperature_unit=fahrenheit&wind_speed_unit=mph&precipitation_unit=inch&timezone=auto`
+            );
+            const wData = await wRes.json();
+            const c = wData.current;
+
+            const code = c.weathercode;
+            const [icon, desc] = (WMO_CODES[code] || '🌡️|Unknown').split('|');
+            const temp = Math.round(c.temperature_2m);
+            const feelsLike = Math.round(c.apparent_temperature);
+            const humidity = Math.round(c.relative_humidity_2m);
+            const wind = Math.round(c.wind_speed_10m);
+
+            widget.innerHTML = `
+                <div class="weather-main">
+                    <div class="weather-icon">${icon}</div>
+                    <div class="weather-temp">${temp}°F</div>
+                    <div class="weather-info">
+                        <div class="weather-desc">${desc}</div>
+                        <div class="weather-location">📍 ${locationLabel}</div>
+                    </div>
+                </div>
+                <div class="weather-divider"></div>
+                <div class="weather-details">
+                    <div class="weather-detail-item">
+                        <span class="weather-detail-label">Feels Like</span>
+                        <span class="weather-detail-val">${feelsLike}°F</span>
+                    </div>
+                    <div class="weather-detail-item">
+                        <span class="weather-detail-label">Humidity</span>
+                        <span class="weather-detail-val">${humidity}%</span>
+                    </div>
+                    <div class="weather-detail-item">
+                        <span class="weather-detail-label">Wind</span>
+                        <span class="weather-detail-val">${wind} mph</span>
+                    </div>
+                </div>
+            `;
+        } catch(err) {
+            widget.innerHTML = `<div style="color:var(--text-dim);font-size:0.82rem;">🌡️ Weather unavailable</div>`;
+        }
+    }
 
     // ═══ GAMES ═══
     function cleanHTML(html) {
@@ -974,8 +1156,11 @@
 
     window.onload = () => {
         renderPresets();
-        const iconLib=document.getElementById('icon-library');
-        svgLibrary.forEach(svg=>{ const opt=document.createElement('div'); opt.className='icon-opt'; opt.innerHTML=svg; opt.onclick=()=>{ document.querySelectorAll('.icon-opt').forEach(o=>o.classList.remove('selected')); opt.classList.add('selected'); document.getElementById('new-app-svg').value=svg; }; iconLib.appendChild(opt); });
+        // FIX: icon-library element doesn't exist in the HTML, so we skip it safely
+        const iconLib = document.getElementById('icon-library');
+        if (iconLib) {
+            svgLibrary.forEach(svg=>{ const opt=document.createElement('div'); opt.className='icon-opt'; opt.innerHTML=svg; opt.onclick=()=>{ document.querySelectorAll('.icon-opt').forEach(o=>o.classList.remove('selected')); opt.classList.add('selected'); document.getElementById('new-app-svg').value=svg; }; iconLib.appendChild(opt); });
+        }
 
         const saved=JSON.parse(localStorage.getItem('bg_config'));
         if(saved){
@@ -989,7 +1174,9 @@
             document.getElementById('bg-bright-input').value=saved.bgBright||'100';
             document.getElementById('font-select').value=saved.font||"'Segoe UI',system-ui,sans-serif";
             if(saved.initTarget) document.getElementById('init-target-select').value=saved.initTarget;
+            // FIX: default to 12h-s if not saved
             if(saved.clockFormat) document.getElementById('clock-format-select').value=saved.clockFormat;
+            else document.getElementById('clock-format-select').value='12h-s';
             if(saved.dateFormat) document.getElementById('date-format-select').value=saved.dateFormat;
             if(saved.textPrimary) document.getElementById('text-primary-picker').value=saved.textPrimary;
             if(saved.textDim) document.getElementById('text-dim-picker').value=saved.textDim;
@@ -1019,11 +1206,13 @@
         async function updatePing(){ try{ const s=performance.now(); await fetch('https://www.google.com/favicon.ico?_='+Date.now(),{method:'HEAD',cache:'no-store',mode:'no-cors'}); document.getElementById('ping').textContent=Math.round(performance.now()-s); }catch{ document.getElementById('ping').textContent='??'; } }
         updatePing(); setInterval(updatePing,6000);
 
-        updateSidebar(); type(); updateClock(); setInterval(updateClock,1000);
-
         if(navigator.getBattery){ navigator.getBattery().then(bat=>{ const upd=()=>{ const lvl=Math.round(bat.level*100); const fill=document.getElementById('bat-fill'); const txt=document.getElementById('bat-text'); if(fill) fill.style.width=lvl+'%'; if(txt) txt.textContent=lvl+'%'; }; bat.addEventListener('levelchange',upd); upd(); }); }
 
+        updateSidebar(); type(); updateClock(); setInterval(updateClock,1000);
         nav('home');
+
+        // Load weather after a brief delay to not block initial render
+        setTimeout(loadWeather, 500);
     };
     </script>
 </body>
