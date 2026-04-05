@@ -664,36 +664,31 @@ async function checkAnnouncements(){
     if(!res.ok)return;
     var data=await res.json();
     var version=data.version||"1.0";
-    if(localStorage.getItem("bg_announce_version")===version)return;
-    showAnnouncementModal(data.announcements||[],version);
+    showAnnouncementCorner(data.announcements||[],version);
   }catch(e){}
 }
-function showAnnouncementModal(items,version){
-  var ex=document.getElementById("announce-overlay");if(ex)ex.remove();
-  var overlay=document.createElement("div");
-  overlay.className="announce-overlay";overlay.id="announce-overlay";
+function showAnnouncementCorner(items,version){
+  var ex=document.getElementById("announce-corner");if(ex)ex.remove();
+  var widget=document.createElement("div");
+  widget.id="announce-corner";
+  widget.style.cssText="position:fixed;bottom:22px;right:22px;width:320px;background:var(--surface);border:1px solid var(--border-hover);border-radius:16px;box-shadow:0 8px 40px rgba(244,143,177,0.15),0 16px 48px rgba(0,0,0,0.4);z-index:9000;overflow:hidden;display:none;animation:slideUp .3s cubic-bezier(.34,1.56,.64,1)";
   var itemsHTML=items.map(function(item){
     return'<div class="announce-item">'
       +'<div class="announce-dot-col"><div class="announce-dot '+(item.dot||"muted")+'"></div></div>'
       +'<div class="announce-item-body">'+(item.title?'<div class="announce-item-title">'+item.title+'</div>':'')
       +'<div class="announce-item-text">'+item.body+'</div></div></div>';
   }).join("");
-  overlay.innerHTML='<div class="announce-modal">'
-    +'<div class="announce-top"><div class="announce-brand">'
+  widget.innerHTML='<div class="announce-top" style="padding:14px 16px 12px">'
+    +'<div class="announce-brand">'
     +'<img src="https://cdn.jsdelivr.net/gh/blossom-games/blossomgames@latest/blossomlogo.png" onerror="this.style.display=\'none\'">'
-    +'<div><div class="announce-brand-name">Blossom Games</div></div>'
+    +'<div class="announce-brand-name">Blossom Games</div>'
     +'<span class="announce-version-badge">v'+version+'</span></div>'
-    +'<button class="announce-close" onclick="dismissAnnouncement(\''+version+'\')"><i class="fas fa-xmark"></i></button></div>'
-    +'<div class="announce-body">'+itemsHTML+'</div>'
-    +'<div class="announce-footer"><button class="announce-footer-btn" onclick="dismissAnnouncement(\''+version+'\')">'
-    +'<i class="fas fa-check" style="margin-right:8px"></i>Got it — Let\'s Play</button></div></div>';
-  document.body.appendChild(overlay);
-  overlay.addEventListener("click",function(e){if(e.target===overlay)dismissAnnouncement(version);});
-}
-function dismissAnnouncement(version){
-  localStorage.setItem("bg_announce_version",version);
-  var overlay=document.getElementById("announce-overlay");
-  if(overlay){overlay.style.transition="opacity .2s";overlay.style.opacity="0";setTimeout(function(){overlay.remove();},200);}
+    +'<button class="announce-close" onclick="this.closest(\'#announce-corner\').style.display=\'none\'"><i class="fas fa-xmark"></i></button></div>'
+    +'<div class="announce-body" style="padding:14px 16px 6px;max-height:260px">'+itemsHTML+'</div>'
+    +'<div class="announce-footer" style="padding:10px 16px 16px">'
+    +'<button class="announce-footer-btn" onclick="this.closest(\'#announce-corner\').style.display=\'none\'">'
+    +'<i class="fas fa-check" style="margin-right:8px"></i>Got it</button></div>';
+  document.body.appendChild(widget);
 }
 
 // ─── NAVIGATION ───────────────────────────────────────────────
@@ -707,7 +702,16 @@ function nav(page){
   if(zv&&zv.style.display==="flex")closeZone();
   document.querySelectorAll(".nav-item").forEach(function(n){n.classList.remove("active");});
   var ni=document.getElementById("nav-"+page);if(ni)ni.classList.add("active");
-  if(page==="home"){document.getElementById("home-content").style.display="grid";if(hud)hud.style.display="block";renderRecentlyPlayed();}
+  if(page==="home"){
+  document.getElementById("home-content").style.display="grid";
+  if(hud)hud.style.display="block";
+  renderRecentlyPlayed();
+  var ac=document.getElementById("announce-corner");
+  if(ac)ac.style.display="block";
+}else{
+  var ac=document.getElementById("announce-corner");
+  if(ac)ac.style.display="none";
+}
   else if(page==="settings"){document.getElementById("settings").style.display="block";renderWordsEditor();renderCustomShortcuts();}
   else if(page==="games"){document.getElementById("games-content").style.display="flex";if(!gamesLoaded){gamesLoaded=true;gamesListZones();}}
   else if(page==="ai"){document.getElementById("ai-content").style.display="block";if(frame)frame.style.display="block";loadIntoFrame("https://cdn.jsdelivr.net/gh/blossom-games/blossomgames@main/src/ai.html?v="+Date.now());sendThemeToIframe();}
