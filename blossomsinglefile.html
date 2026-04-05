@@ -702,20 +702,19 @@ function nav(page){
   if(zv&&zv.style.display==="flex")closeZone();
   document.querySelectorAll(".nav-item").forEach(function(n){n.classList.remove("active");});
   var ni=document.getElementById("nav-"+page);if(ni)ni.classList.add("active");
+  var ac=document.getElementById("announce-corner");
   if(page==="home"){
-  document.getElementById("home-content").style.display="grid";
-  if(hud)hud.style.display="block";
-  renderRecentlyPlayed();
-  var ac=document.getElementById("announce-corner");
-  if(ac)ac.style.display="block";
-}else{
-  var ac=document.getElementById("announce-corner");
-  if(ac)ac.style.display="none";
-}
-  else if(page==="settings"){document.getElementById("settings").style.display="block";renderWordsEditor();renderCustomShortcuts();}
-  else if(page==="games"){document.getElementById("games-content").style.display="flex";if(!gamesLoaded){gamesLoaded=true;gamesListZones();}}
-  else if(page==="ai"){document.getElementById("ai-content").style.display="block";if(frame)frame.style.display="block";loadIntoFrame("https://cdn.jsdelivr.net/gh/blossom-games/blossomgames@main/src/ai.html?v="+Date.now());sendThemeToIframe();}
-  else if(page==="stats"){document.getElementById("stats-content").style.display="block";renderStatsPage();}
+    document.getElementById("home-content").style.display="grid";
+    if(hud)hud.style.display="block";
+    renderRecentlyPlayed();
+    if(ac)ac.style.display="block";
+  }else{
+    if(ac)ac.style.display="none";
+    if(page==="settings"){document.getElementById("settings").style.display="block";renderWordsEditor();renderCustomShortcuts();}
+    else if(page==="games"){document.getElementById("games-content").style.display="flex";if(!gamesLoaded){gamesLoaded=true;gamesListZones();}}
+    else if(page==="ai"){document.getElementById("ai-content").style.display="block";if(frame)frame.style.display="block";loadIntoFrame("https://cdn.jsdelivr.net/gh/blossom-games/blossomgames@main/src/ai.html?v="+Date.now());sendThemeToIframe();}
+    else if(page==="stats"){document.getElementById("stats-content").style.display="block";renderStatsPage();}
+  }
 }
 
 // ─── LOAD INTO FRAME ──────────────────────────────────────────
