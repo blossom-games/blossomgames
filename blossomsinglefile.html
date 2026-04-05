@@ -15,7 +15,6 @@ button,input,select,textarea{font-family:var(--font);}
 body{background-color:var(--bg);color:var(--text-primary);font-family:var(--font);display:flex;height:100vh;overflow:hidden;}
 body::before{content:"";position:fixed;top:0;left:0;width:100%;height:100%;background-image:var(--bg-image,none);background-size:cover;background-position:center;filter:blur(var(--bg-blur,0px)) brightness(var(--bg-brightness,100%));z-index:-1;pointer-events:none;}
 body::after{content:"";position:fixed;top:0;left:0;width:100%;height:100%;background-image:radial-gradient(ellipse 80% 60% at 20% 10%,rgba(244,143,177,0.04) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 85% 80%,rgba(206,147,216,0.04) 0%,transparent 60%);z-index:-1;pointer-events:none;}
-/* SIDEBAR */
 .sidebar{position:fixed;top:0;left:0;height:100vh;width:var(--sidebar-w);background:var(--sidebar-bg);border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;padding:20px 0 16px;transition:width 0.25s cubic-bezier(0.4,0,0.2,1);z-index:1000;backdrop-filter:blur(20px) saturate(150%);}
 .sidebar:hover{width:210px;}
 .logo-box{width:36px;height:36px;margin-bottom:28px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
@@ -35,11 +34,9 @@ body::after{content:"";position:fixed;top:0;left:0;width:100%;height:100%;backgr
 .nav-active-bar{position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:22px;background:var(--gradient);border-radius:0 3px 3px 0;opacity:0;transition:opacity 0.18s;}
 .nav-item.active .nav-active-bar{opacity:1;}
 .sidebar-bottom{width:100%;border-top:1px solid var(--border);padding-top:8px;display:flex;flex-direction:column;flex-shrink:0;}
-/* MAIN */
 .main-view{flex-grow:1;margin-left:var(--sidebar-w);position:relative;display:flex;flex-direction:column;z-index:1;}
 .view-section{height:100%;width:100%;overflow-y:auto;padding:44px 7%;display:none;animation:fadeIn 0.3s ease;}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
-/* HOME */
 #home-content{display:grid;grid-template-columns:1fr auto;grid-template-rows:auto auto auto;gap:24px 48px;align-items:start;}
 .hero{grid-column:1;grid-row:1;}
 .hero-eyebrow{font-size:0.72rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
@@ -52,7 +49,6 @@ body::after{content:"";position:fixed;top:0;left:0;width:100%;height:100%;backgr
 #home-date{font-size:0.72rem;color:var(--text-dim);letter-spacing:0.12em;text-transform:uppercase;font-weight:500;}
 .play-btn{display:inline-flex;align-items:center;gap:10px;background:var(--gradient);color:#fff;padding:13px 28px;border:none;border-radius:var(--radius-sm);font-weight:700;cursor:pointer;font-size:0.9rem;letter-spacing:0.08em;text-transform:uppercase;box-shadow:0 6px 30px rgba(244,143,177,0.28);transition:0.2s;font-family:var(--font);}
 .play-btn:hover{box-shadow:0 8px 36px rgba(244,143,177,0.45);transform:translateY(-2px);}
-/* WEATHER */
 .weather-widget{grid-column:1 / -1;grid-row:2;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:16px 22px;backdrop-filter:blur(12px);display:flex;align-items:center;gap:22px;flex-wrap:wrap;}
 .weather-main{display:flex;align-items:center;gap:14px;flex-shrink:0;}
 .weather-icon-wrap{width:44px;height:44px;border-radius:12px;background:var(--gradient-subtle);border:1px solid var(--border-hover);display:flex;align-items:center;justify-content:center;}
@@ -69,7 +65,6 @@ body::after{content:"";position:fixed;top:0;left:0;width:100%;height:100%;backgr
 .weather-loading{color:var(--text-dim);font-size:0.82rem;display:flex;align-items:center;gap:10px;}
 .weather-loading::before{content:"";width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
-/* RECENTLY PLAYED */
 .recently-played-section{grid-column:1 / -1;grid-row:3;}
 .section-label{font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
 .section-label::before{content:"";width:14px;height:2px;background:var(--gradient);border-radius:2px;flex-shrink:0;}
@@ -80,7 +75,6 @@ body::after{content:"";position:fixed;top:0;left:0;width:100%;height:100%;backgr
 .rp-card-name{font-size:0.75rem;font-weight:600;color:var(--text-dim);margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .rp-card-meta{font-size:0.65rem;color:var(--text-muted);margin-top:2px;font-family:var(--mono);}
 .rp-badge{position:absolute;top:8px;right:8px;background:rgba(8,10,15,0.82);border:1px solid var(--border);border-radius:6px;padding:2px 7px;font-size:0.62rem;font-family:var(--mono);color:var(--accent);}
-/* HUD */
 .status-hud{position:absolute;bottom:22px;left:calc(var(--sidebar-w) + 12px);background:var(--surface);border:1px solid var(--border);padding:12px 16px;border-radius:var(--radius);font-size:11px;color:var(--text-dim);font-family:var(--mono);line-height:1.9;pointer-events:none;min-width:148px;backdrop-filter:blur(16px);z-index:5;}
 .hud-row{display:flex;align-items:center;gap:8px;}
 .hud-label{color:var(--text-muted);font-size:10px;letter-spacing:0.06em;text-transform:uppercase;min-width:32px;}
@@ -88,7 +82,6 @@ body::after{content:"";position:fixed;top:0;left:0;width:100%;height:100%;backgr
 .bat-shell{width:30px;height:13px;border:1.5px solid var(--text-muted);border-radius:3px;position:relative;padding:2px;flex-shrink:0;}
 .bat-shell::after{content:"";position:absolute;right:-4px;top:2.5px;width:2.5px;height:5px;background:var(--text-muted);border-radius:0 2px 2px 0;}
 .bat-level{height:100%;background:var(--gradient);border-radius:2px;width:0%;transition:width 0.5s ease;}
-/* SETTINGS */
 .settings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px;}
 .settings-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:22px;backdrop-filter:blur(10px);transition:border-color 0.2s;}
 .settings-card:hover{border-color:rgba(244,143,177,0.1);}
@@ -129,7 +122,6 @@ textarea{height:130px;resize:none;font-family:var(--mono);}
 .page-title{font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;display:flex;align-items:center;gap:8px;}
 .page-title::before{content:"";width:14px;height:2px;background:var(--gradient);border-radius:2px;}
 .page-heading{font-size:1.7rem;font-weight:800;letter-spacing:-0.02em;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:24px;}
-/* GAMES */
 #games-content{padding:0 28px 28px;display:none;flex-direction:column;align-items:center;overflow-y:auto;height:100%;width:100%;}
 .games-search-container{width:100%;max-width:1020px;margin-top:16px;margin-bottom:26px;display:flex;gap:10px;align-items:center;}
 .games-search-input-wrapper{position:relative;flex-grow:1;display:flex;align-items:center;}
@@ -169,7 +161,6 @@ textarea{height:130px;resize:none;font-family:var(--mono);}
 #zoneFrame{flex-grow:1;border:none;width:calc(100% - 16px);height:calc(100% - 16px);margin:0 8px 8px;background:transparent;border-radius:10px;}
 #app-frame{position:absolute;top:0;left:0;width:100%;height:100%;border:none;display:none;background:var(--bg);}
 .games-page-header{width:100%;max-width:1220px;padding-top:28px;}
-/* STATS */
 #stats-content{padding:44px 7%;}
 .stats-overview{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:36px;}
 .stat-card{background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);padding:20px;display:flex;align-items:flex-start;gap:14px;transition:0.2s;}
@@ -218,7 +209,6 @@ textarea{height:130px;resize:none;font-family:var(--mono);}
 .history-time{font-size:0.68rem;color:var(--text-muted);font-family:var(--mono);margin-top:2px;}
 .history-duration{font-size:0.72rem;font-family:var(--mono);color:var(--text-dim);flex-shrink:0;}
 .history-empty{padding:32px 20px;text-align:center;color:var(--text-muted);font-size:0.85rem;}
-/* ANNOUNCEMENT */
 .announce-overlay{position:fixed;inset:0;background:rgba(8,10,15,0.88);backdrop-filter:blur(16px);z-index:9999;display:flex;align-items:center;justify-content:center;animation:fadeIn 0.25s ease;}
 .announce-modal{background:var(--surface);border:1px solid var(--border-hover);border-radius:20px;width:90%;max-width:560px;box-shadow:0 0 60px rgba(244,143,177,0.15),0 32px 64px rgba(0,0,0,0.4);animation:slideUp 0.32s cubic-bezier(0.34,1.56,0.64,1);overflow:hidden;}
 @keyframes slideUp{from{opacity:0;transform:translateY(28px) scale(0.96);}to{opacity:1;transform:translateY(0) scale(1);}}
@@ -243,13 +233,11 @@ textarea{height:130px;resize:none;font-family:var(--mono);}
 .announce-footer{padding:18px 24px 24px;}
 .announce-footer-btn{width:100%;background:var(--gradient);color:#fff;border:none;border-radius:var(--radius-sm);padding:13px;font-weight:700;cursor:pointer;font-family:var(--font);font-size:0.88rem;letter-spacing:0.06em;text-transform:uppercase;box-shadow:0 4px 20px rgba(244,143,177,0.22);transition:0.2s;}
 .announce-footer-btn:hover{box-shadow:0 6px 28px rgba(244,143,177,0.42);transform:translateY(-1px);}
-/* SCROLLBARS */
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:rgba(244,143,177,0.2);border-radius:2px;}
 ::-webkit-scrollbar-thumb:hover{background:rgba(244,143,177,0.4);}
 *{scrollbar-width:thin;scrollbar-color:rgba(244,143,177,0.2) transparent;}
-/* AFK */
 #afk-cloak-overlay{display:none;position:fixed;inset:0;z-index:2147483647;background:#fff;}
 #afk-cloak-frame{width:100%;height:100%;border:none;display:block;position:absolute;inset:0;pointer-events:none;}
 #afk-cloak-interceptor{position:absolute;inset:0;z-index:1;background:transparent;cursor:default;outline:none;}
@@ -276,7 +264,6 @@ textarea{height:130px;resize:none;font-family:var(--mono);}
 
 <main class="main-view">
 
-<!-- HOME -->
 <section id="home-content" class="view-section">
   <div class="hero">
     <div class="hero-eyebrow">Blossom Games Hub</div>
@@ -295,7 +282,6 @@ textarea{height:130px;resize:none;font-family:var(--mono);}
   </div>
 </section>
 
-<!-- SETTINGS -->
 <section id="settings" class="view-section">
   <div style="margin-bottom:28px">
     <div class="page-title">Configuration</div>
@@ -431,7 +417,6 @@ textarea{height:130px;resize:none;font-family:var(--mono);}
   </div>
 </section>
 
-<!-- GAMES -->
 <section id="games-content" class="view-section" style="padding:0 28px 28px;align-items:center">
   <div class="games-page-header"><div class="page-title">Library</div><div class="page-heading">Games</div></div>
   <div class="games-featured-wrapper" id="gamesFeaturedWrapper" style="display:none">
@@ -455,7 +440,6 @@ textarea{height:130px;resize:none;font-family:var(--mono);}
   <div id="gamesContainer">Loading games...</div>
 </section>
 
-<!-- ZONE VIEWER -->
 <div id="zoneViewer">
   <div class="zone-header">
     <strong id="zoneName">Game</strong>
@@ -467,12 +451,10 @@ textarea{height:130px;resize:none;font-family:var(--mono);}
   <iframe id="zoneFrame"></iframe>
 </div>
 
-<!-- AI -->
 <section id="ai-content" class="view-section" style="padding:0;overflow:hidden">
   <iframe id="app-frame" onload="sendThemeToIframe()" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;display:none;background:var(--bg)"></iframe>
 </section>
 
-<!-- STATS -->
 <section id="stats-content" class="view-section">
   <div><div class="page-title">Performance</div><div class="page-heading">Stats & Rankings</div></div>
   <div class="stats-overview" id="stats-overview"></div>
@@ -502,9 +484,6 @@ textarea{height:130px;resize:none;font-family:var(--mono);}
 </div>
 
 <script>
-// ================================================================
-// BLOSSOM GAMES
-// ================================================================
 var APP_NAME="Blossom Games";
 var ANNOUNCE_URL="https://announce.ethantytang11.workers.dev";
 var DEFAULT_WORDS=["Blossom Games.","fun awaits.","your arcade.","play and chill.","bloom and game."];
@@ -531,7 +510,6 @@ if(!shortcuts.custom)shortcuts.custom=[];
 var navOrder=JSON.parse(localStorage.getItem("bg_nav_order")||"null")||{top:["home","games","stats","ai"],bottom:["settings"]};
 var customPresets=JSON.parse(localStorage.getItem("bg_custom_presets")||"null")||[];
 
-// ─── PLAY HISTORY & STATS ────────────────────────────────────
 var HISTORY_KEY="bg_play_history",PLAYCOUNTS_KEY="bg_play_counts";
 var currentZoneStart=null,currentZoneData=null;
 function getHistory(){try{return JSON.parse(localStorage.getItem(HISTORY_KEY))||[];}catch(e){return[];}}
@@ -683,10 +661,10 @@ function showAnnouncementCorner(items,version){
     +'<img src="https://cdn.jsdelivr.net/gh/blossom-games/blossomgames@latest/blossomlogo.png" onerror="this.style.display=\'none\'">'
     +'<div class="announce-brand-name">Blossom Games</div>'
     +'<span class="announce-version-badge">v'+version+'</span></div>'
-    +'<button class="announce-close" onclick="this.closest(\'#announce-corner\').style.display=\'none\'"><i class="fas fa-xmark"></i></button></div>'
+    +'<button class="announce-close" onclick="document.getElementById(\'announce-corner\').style.display=\'none\'"><i class="fas fa-xmark"></i></button></div>'
     +'<div class="announce-body" style="padding:14px 16px 6px;max-height:260px">'+itemsHTML+'</div>'
     +'<div class="announce-footer" style="padding:10px 16px 16px">'
-    +'<button class="announce-footer-btn" onclick="this.closest(\'#announce-corner\').style.display=\'none\'">'
+    +'<button class="announce-footer-btn" onclick="document.getElementById(\'announce-corner\').style.display=\'none\'">'
     +'<i class="fas fa-check" style="margin-right:8px"></i>Got it</button></div>';
   document.body.appendChild(widget);
 }
