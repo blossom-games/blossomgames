@@ -209,17 +209,18 @@ textarea{height:130px;resize:none;font-family:var(--mono);}
 .history-time{font-size:0.68rem;color:var(--text-muted);font-family:var(--mono);margin-top:2px;}
 .history-duration{font-size:0.72rem;font-family:var(--mono);color:var(--text-dim);flex-shrink:0;}
 .history-empty{padding:32px 20px;text-align:center;color:var(--text-muted);font-size:0.85rem;}
-.announce-overlay{position:fixed;inset:0;background:rgba(8,10,15,0.88);backdrop-filter:blur(16px);z-index:9999;display:flex;align-items:center;justify-content:center;animation:fadeIn 0.25s ease;}
-.announce-modal{background:var(--surface);border:1px solid var(--border-hover);border-radius:20px;width:90%;max-width:560px;box-shadow:0 0 60px rgba(244,143,177,0.15),0 32px 64px rgba(0,0,0,0.4);animation:slideUp 0.32s cubic-bezier(0.34,1.56,0.64,1);overflow:hidden;}
+
+/* ── ANNOUNCEMENT CORNER ── */
+.announce-corner{position:fixed;bottom:22px;right:22px;width:320px;background:var(--surface);border:1px solid var(--border-hover);border-radius:16px;box-shadow:0 8px 40px rgba(244,143,177,0.15),0 16px 48px rgba(0,0,0,0.4);z-index:9000;overflow:hidden;animation:slideUp .35s cubic-bezier(.34,1.56,.64,1);}
 @keyframes slideUp{from{opacity:0;transform:translateY(28px) scale(0.96);}to{opacity:1;transform:translateY(0) scale(1);}}
-.announce-top{padding:22px 24px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.announce-top{padding:14px 16px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
 .announce-brand{display:flex;align-items:center;gap:12px;}
 .announce-brand img{width:28px;height:28px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(244,143,177,0.4));}
 .announce-brand-name{font-size:0.85rem;font-weight:700;color:var(--text-primary);}
 .announce-version-badge{font-size:0.6rem;color:var(--text-muted);font-family:var(--mono);background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:4px;padding:2px 6px;margin-left:6px;}
 .announce-close{background:var(--input-bg);border:1px solid var(--border);color:var(--text-dim);width:30px;height:30px;border-radius:var(--radius-sm);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:0.18s;}
 .announce-close:hover{border-color:rgba(244,143,177,0.4);color:var(--accent);}
-.announce-body{padding:22px 24px 8px;display:flex;flex-direction:column;gap:20px;max-height:380px;overflow-y:auto;}
+.announce-body{padding:14px 16px 6px;display:flex;flex-direction:column;gap:16px;max-height:240px;overflow-y:auto;}
 .announce-item{display:flex;gap:14px;}
 .announce-dot-col{padding-top:4px;flex-shrink:0;}
 .announce-dot{width:9px;height:9px;border-radius:50%;}
@@ -228,11 +229,60 @@ textarea{height:130px;resize:none;font-family:var(--mono);}
 .announce-dot.muted{background:var(--text-muted);}
 .announce-dot.update{background:var(--accent);box-shadow:0 0 8px rgba(244,143,177,0.5);}
 .announce-item-body{flex:1;min-width:0;}
-.announce-item-title{font-size:0.9rem;font-weight:700;color:var(--text-primary);margin-bottom:5px;}
-.announce-item-text{font-size:0.82rem;color:var(--text-dim);line-height:1.65;}
-.announce-footer{padding:18px 24px 24px;}
-.announce-footer-btn{width:100%;background:var(--gradient);color:#fff;border:none;border-radius:var(--radius-sm);padding:13px;font-weight:700;cursor:pointer;font-family:var(--font);font-size:0.88rem;letter-spacing:0.06em;text-transform:uppercase;box-shadow:0 4px 20px rgba(244,143,177,0.22);transition:0.2s;}
+.announce-item-title{font-size:0.88rem;font-weight:700;color:var(--text-primary);margin-bottom:4px;}
+.announce-item-text{font-size:0.78rem;color:var(--text-dim);line-height:1.6;}
+.announce-footer{padding:10px 16px 14px;}
+.announce-footer-btn{width:100%;background:var(--gradient);color:#fff;border:none;border-radius:var(--radius-sm);padding:11px;font-weight:700;cursor:pointer;font-family:var(--font);font-size:0.85rem;letter-spacing:0.06em;text-transform:uppercase;box-shadow:0 4px 20px rgba(244,143,177,0.22);transition:0.2s;}
 .announce-footer-btn:hover{box-shadow:0 6px 28px rgba(244,143,177,0.42);transform:translateY(-1px);}
+
+/* ── AI CHAT STYLES ── */
+#ai-content{padding:0;overflow:hidden;}
+.ai-wrapper{display:flex;flex-direction:column;height:100%;padding:0;}
+.ai-header{padding:14px 24px;border-bottom:1px solid var(--border);background:var(--surface);display:flex;align-items:center;gap:14px;flex-shrink:0;}
+.ai-header-icon{width:32px;height:32px;border-radius:10px;background:var(--gradient-subtle);border:1px solid var(--border-hover);display:flex;align-items:center;justify-content:center;}
+.ai-header-icon i{font-size:0.9rem;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.ai-header-title{font-size:0.95rem;font-weight:700;color:var(--text-primary);}
+.ai-header-sub{font-size:0.72rem;color:var(--text-muted);margin-left:auto;font-family:var(--mono);}
+.ai-model-badge{font-size:0.62rem;background:var(--gradient-subtle);border:1px solid var(--border-hover);border-radius:6px;padding:3px 8px;color:var(--accent);font-family:var(--mono);font-weight:600;}
+.ai-messages{flex:1;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:16px;}
+.ai-msg{display:flex;gap:12px;animation:fadeIn 0.25s ease;}
+.ai-msg.user{flex-direction:row-reverse;}
+.ai-avatar{width:30px;height:30px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.75rem;}
+.ai-avatar.bot{background:var(--gradient-subtle);border:1px solid var(--border-hover);}
+.ai-avatar.bot i{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.ai-avatar.user{background:rgba(255,255,255,0.06);border:1px solid var(--border);}
+.ai-bubble{max-width:72%;padding:12px 16px;border-radius:14px;font-size:0.875rem;line-height:1.65;position:relative;}
+.ai-bubble.bot{background:var(--card-bg);border:1px solid var(--border);border-top-left-radius:4px;color:var(--text-primary);}
+.ai-bubble.user{background:var(--gradient-subtle);border:1px solid var(--border-hover);border-top-right-radius:4px;color:var(--text-primary);}
+.ai-bubble pre{background:rgba(0,0,0,0.3);border-radius:8px;padding:10px 12px;margin:8px 0;overflow-x:auto;font-family:var(--mono);font-size:0.8rem;}
+.ai-bubble code{font-family:var(--mono);font-size:0.85em;background:rgba(0,0,0,0.25);padding:2px 5px;border-radius:4px;}
+.ai-bubble pre code{background:none;padding:0;}
+.ai-typing{display:flex;gap:5px;align-items:center;padding:4px 0;}
+.ai-typing span{width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:0.4;animation:aiTyping 1.2s ease infinite;}
+.ai-typing span:nth-child(2){animation-delay:.2s;}
+.ai-typing span:nth-child(3){animation-delay:.4s;}
+@keyframes aiTyping{0%,80%,100%{opacity:0.4;transform:scale(1);}40%{opacity:1;transform:scale(1.2);}}
+.ai-input-area{padding:16px 24px;border-top:1px solid var(--border);background:var(--surface);flex-shrink:0;}
+.ai-input-row{display:flex;gap:10px;align-items:flex-end;}
+.ai-textarea{flex:1;background:var(--input-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 16px;color:var(--text-primary);font-family:var(--font);font-size:0.875rem;resize:none;outline:none;min-height:44px;max-height:160px;transition:0.18s;height:44px;overflow-y:hidden;}
+.ai-textarea:focus{border-color:rgba(244,143,177,0.35);background:rgba(255,255,255,0.05);box-shadow:0 0 0 3px rgba(244,143,177,0.08);}
+.ai-send-btn{background:var(--gradient);border:none;border-radius:var(--radius-sm);width:44px;height:44px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:0.2s;box-shadow:0 4px 16px rgba(244,143,177,0.25);}
+.ai-send-btn:hover{box-shadow:0 6px 24px rgba(244,143,177,0.4);transform:scale(1.05);}
+.ai-send-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;}
+.ai-send-btn i{color:#fff;font-size:0.9rem;}
+.ai-clear-btn{background:transparent;border:1px solid var(--border);border-radius:var(--radius-sm);width:44px;height:44px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:0.18s;color:var(--text-muted);}
+.ai-clear-btn:hover{border-color:rgba(240,98,146,0.3);color:#f06292;}
+.ai-model-select{background:var(--input-bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:6px 10px;color:var(--text-dim);font-family:var(--mono);font-size:0.72rem;outline:none;color-scheme:dark;margin-bottom:10px;}
+.ai-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:var(--text-muted);}
+.ai-empty-icon{width:56px;height:56px;border-radius:18px;background:var(--gradient-subtle);border:1px solid var(--border-hover);display:flex;align-items:center;justify-content:center;}
+.ai-empty-icon i{font-size:1.4rem;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.ai-empty-title{font-size:1rem;font-weight:700;color:var(--text-primary);}
+.ai-empty-sub{font-size:0.82rem;color:var(--text-dim);text-align:center;max-width:280px;line-height:1.5;}
+.ai-suggestions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:4px;}
+.ai-suggestion-btn{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:0.75rem;color:var(--text-dim);cursor:pointer;transition:0.18s;font-family:var(--font);}
+.ai-suggestion-btn:hover{border-color:var(--border-hover);color:var(--accent);}
+.ai-error{color:#f06292;font-size:0.78rem;margin-top:6px;display:none;}
+
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-track{background:transparent;}
 ::-webkit-scrollbar-thumb{background:rgba(244,143,177,0.2);border-radius:2px;}
@@ -404,6 +454,22 @@ textarea{height:130px;resize:none;font-family:var(--mono);}
       <button class="preset-btn" onclick="resetShortcuts()" style="width:100%;margin-top:12px">Reset Shortcuts</button>
     </div>
     <div class="settings-card">
+      <h3><i class="fas fa-robot"></i> AI Chat Config</h3>
+      <div class="input-group"><label>Groq Model</label>
+        <select id="ai-model-setting" onchange="saveAiSettings()">
+          <option value="llama-3.3-70b-versatile">Llama 3.3 70B (Default)</option>
+          <option value="llama-3.1-8b-instant">Llama 3.1 8B (Fast)</option>
+          <option value="gemma2-9b-it">Gemma 2 9B</option>
+          <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
+          <option value="llama-3.3-70b-specdec">Llama 3.3 70B SpecDec</option>
+        </select>
+      </div>
+      <div class="input-group"><label>System Prompt</label>
+        <textarea id="ai-system-prompt" placeholder="You are a helpful assistant..." oninput="saveAiSettings()" style="height:90px"></textarea>
+      </div>
+      <button class="btn-start" onclick="aiClearHistory()" style="margin-top:0;width:100%;font-size:.8rem;background:rgba(240,98,146,.1);color:#f06292;box-shadow:none;border:1px solid rgba(240,98,146,.22)">Clear Chat History</button>
+    </div>
+    <div class="settings-card">
       <h3><i class="fas fa-database"></i> Data Management</h3>
       <p style="font-size:.82rem;color:var(--text-dim);margin-bottom:18px;line-height:1.6">Export or import your configuration.</p>
       <div style="display:flex;flex-direction:column;gap:9px">
@@ -451,8 +517,46 @@ textarea{height:130px;resize:none;font-family:var(--mono);}
   <iframe id="zoneFrame"></iframe>
 </div>
 
-<section id="ai-content" class="view-section" style="padding:0;overflow:hidden">
-  <iframe id="app-frame" onload="sendThemeToIframe()" style="position:absolute;top:0;left:0;width:100%;height:100%;border:none;display:none;background:var(--bg)"></iframe>
+<!-- ── BUILT-IN AI CHAT ── -->
+<section id="ai-content" class="view-section" style="padding:0;overflow:hidden;">
+  <div class="ai-wrapper">
+    <div class="ai-header">
+      <div class="ai-header-icon"><i class="fas fa-message"></i></div>
+      <div>
+        <div class="ai-header-title">AI Chat</div>
+      </div>
+      <select class="ai-model-select" id="ai-model-display" onchange="aiChangeModel(this.value)" style="margin-left:auto;margin-bottom:0;">
+        <option value="llama-3.3-70b-versatile">Llama 3.3 70B</option>
+        <option value="llama-3.1-8b-instant">Llama 3.1 8B</option>
+        <option value="gemma2-9b-it">Gemma 2 9B</option>
+        <option value="mixtral-8x7b-32768">Mixtral 8x7B</option>
+        <option value="llama-3.3-70b-specdec">Llama 3.3 70B SpecDec</option>
+      </select>
+    </div>
+    <div class="ai-messages" id="ai-messages">
+      <div class="ai-empty" id="ai-empty">
+        <div class="ai-empty-icon"><i class="fas fa-robot"></i></div>
+        <div class="ai-empty-title">Ask me anything</div>
+        <div class="ai-empty-sub">Powered by Groq — blazing fast AI responses.</div>
+        <div class="ai-suggestions">
+          <button class="ai-suggestion-btn" onclick="aiSuggest('Give me a game recommendation')">🎮 Game rec</button>
+          <button class="ai-suggestion-btn" onclick="aiSuggest('What is quantum computing?')">🔬 Science</button>
+          <button class="ai-suggestion-btn" onclick="aiSuggest('Write me a short poem')">✍️ Creative</button>
+          <button class="ai-suggestion-btn" onclick="aiSuggest('Tell me a fun fact')">🎲 Fun fact</button>
+        </div>
+      </div>
+    </div>
+    <div class="ai-input-area">
+      <div class="ai-input-row">
+        <button class="ai-clear-btn" onclick="aiClearHistory()" title="Clear chat"><i class="fas fa-rotate-left"></i></button>
+        <textarea class="ai-textarea" id="ai-input" placeholder="Ask anything..." rows="1"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();aiSend();}"
+          oninput="this.style.height='44px';this.style.height=Math.min(this.scrollHeight,160)+'px'"></textarea>
+        <button class="ai-send-btn" id="ai-send-btn" onclick="aiSend()"><i class="fas fa-paper-plane"></i></button>
+      </div>
+      <div class="ai-error" id="ai-error"></div>
+    </div>
+  </div>
 </section>
 
 <section id="stats-content" class="view-section">
@@ -486,6 +590,9 @@ textarea{height:130px;resize:none;font-family:var(--mono);}
 <script>
 var APP_NAME="Blossom Games";
 var ANNOUNCE_URL="https://announce.ethantytang11.workers.dev";
+// ── Groq via Cloudflare Worker (no API key exposed) ──
+var GROQ_WORKER_URL="https://groq.ethantytang11.workers.dev";
+
 var DEFAULT_WORDS=["Blossom Games.","fun awaits.","your arcade.","play and chill.","bloom and game."];
 var words=JSON.parse(localStorage.getItem("bg_words")||"null")||DEFAULT_WORDS.slice();
 var tabPresets=[
@@ -510,6 +617,7 @@ if(!shortcuts.custom)shortcuts.custom=[];
 var navOrder=JSON.parse(localStorage.getItem("bg_nav_order")||"null")||{top:["home","games","stats","ai"],bottom:["settings"]};
 var customPresets=JSON.parse(localStorage.getItem("bg_custom_presets")||"null")||[];
 
+// ── STATS / HISTORY ──────────────────────────────────────────
 var HISTORY_KEY="bg_play_history",PLAYCOUNTS_KEY="bg_play_counts";
 var currentZoneStart=null,currentZoneData=null;
 function getHistory(){try{return JSON.parse(localStorage.getItem(HISTORY_KEY))||[];}catch(e){return[];}}
@@ -535,185 +643,109 @@ function recordGameClose(){
   saveHistory(history);
   currentZoneStart=null;currentZoneData=null;
 }
-function clearHistory(){
-  if(!confirm("Clear all play history?"))return;
-  saveHistory([]);renderStatsPage();
-}
-function fmtDuration(s){
-  if(!s||s<1)return"<1s";
-  if(s<60)return s+"s";
-  var m=Math.floor(s/60),ss=s%60;
-  if(m<60)return m+"m "+ss+"s";
-  var h=Math.floor(m/60),mm=m%60;
-  return h+"h "+mm+"m";
-}
-function fmtRelTime(ts){
-  var d=Date.now()-ts,m=Math.floor(d/60000);
-  if(m<1)return"Just now";if(m<60)return m+"m ago";
-  var h=Math.floor(m/60);if(h<24)return h+"h ago";
-  var dd=Math.floor(h/24);if(dd<7)return dd+"d ago";
-  return new Date(ts).toLocaleDateString("en-US",{month:"short",day:"numeric"});
-}
+function clearHistory(){if(!confirm("Clear all play history?"))return;saveHistory([]);renderStatsPage();}
+function fmtDuration(s){if(!s||s<1)return"<1s";if(s<60)return s+"s";var m=Math.floor(s/60),ss=s%60;if(m<60)return m+"m "+ss+"s";var h=Math.floor(m/60),mm=m%60;return h+"h "+mm+"m";}
+function fmtRelTime(ts){var d=Date.now()-ts,m=Math.floor(d/60000);if(m<1)return"Just now";if(m<60)return m+"m ago";var h=Math.floor(m/60);if(h<24)return h+"h ago";var dd=Math.floor(h/24);if(dd<7)return dd+"d ago";return new Date(ts).toLocaleDateString("en-US",{month:"short",day:"numeric"});}
 function resolveCover(c){return(c||"").replace("{COVER_URL}",coverURL).replace("{HTML_URL}",htmlURL);}
 function renderRecentlyPlayed(){
   var history=getHistory(),counts=getPlayCounts();
   var section=document.getElementById("recently-played-section"),grid=document.getElementById("recently-played-grid");
   if(!section||!grid)return;
   var seen=new Set(),recent=[];
-  for(var i=0;i<history.length;i++){
-    var h=history[i];
-    if(!seen.has(h.id)){seen.add(h.id);recent.push(h);if(recent.length>=8)break;}
-  }
+  for(var i=0;i<history.length;i++){var h=history[i];if(!seen.has(h.id)){seen.add(h.id);recent.push(h);if(recent.length>=8)break;}}
   if(recent.length===0){section.style.display="none";return;}
   section.style.display="block";
   grid.innerHTML=recent.map(function(h){
     var pc=counts[h.id],n=pc?pc.count:1,cv=resolveCover(h.cover);
-    return'<div class="rp-card" onclick="replayZoneById(\''+h.id+'\')">'
-      +'<span class="rp-badge"><i class="fas fa-play" style="font-size:.55rem;margin-right:3px"></i>'+n+'</span>'
+    return'<div class="rp-card" onclick="replayZoneById(\''+h.id+'\')"><span class="rp-badge"><i class="fas fa-play" style="font-size:.55rem;margin-right:3px"></i>'+n+'</span>'
       +'<img src="'+cv+'" alt="'+h.name+'" onerror="this.style.opacity=.3">'
-      +'<div class="rp-card-name">'+h.name+'</div>'
-      +'<div class="rp-card-meta">'+fmtRelTime(h.ts)+'</div>'
-      +'</div>';
+      +'<div class="rp-card-name">'+h.name+'</div><div class="rp-card-meta">'+fmtRelTime(h.ts)+'</div></div>';
   }).join("");
 }
-function replayZoneById(id){
-  var zone=zones.find(function(z){return String(z.id)===String(id);});
-  if(zone)openZone(zone);else nav("games");
-}
+function replayZoneById(id){var zone=zones.find(function(z){return String(z.id)===String(id);});if(zone)openZone(zone);else nav("games");}
 function renderStatsPage(){
   var counts=getPlayCounts(),history=getHistory();
   var total=history.length,unique=Object.keys(counts).length;
   var totalTime=Object.values(counts).reduce(function(s,c){return s+(c.totalTime||0);},0);
   var topGame=Object.values(counts).sort(function(a,b){return b.count-a.count;})[0];
   var ov=document.getElementById("stats-overview");
-  if(ov)ov.innerHTML=
-    '<div class="stat-card"><div class="stat-icon"><i class="fas fa-play"></i></div><div class="stat-body"><div class="stat-value">'+total+'</div><div class="stat-label">Total Sessions</div></div></div>'
+  if(ov)ov.innerHTML='<div class="stat-card"><div class="stat-icon"><i class="fas fa-play"></i></div><div class="stat-body"><div class="stat-value">'+total+'</div><div class="stat-label">Total Sessions</div></div></div>'
     +'<div class="stat-card"><div class="stat-icon"><i class="fas fa-dice"></i></div><div class="stat-body"><div class="stat-value">'+unique+'</div><div class="stat-label">Unique Games</div></div></div>'
     +'<div class="stat-card"><div class="stat-icon"><i class="fas fa-hourglass-half"></i></div><div class="stat-body"><div class="stat-value">'+fmtDuration(totalTime)+'</div><div class="stat-label">Time Played</div></div></div>'
     +'<div class="stat-card"><div class="stat-icon"><i class="fas fa-star"></i></div><div class="stat-body"><div class="stat-value" style="font-size:1rem;padding-top:4px">'+(topGame?topGame.name:"—")+'</div><div class="stat-label">Top Game</div></div></div>';
   var sorted=Object.entries(counts).map(function(e){return Object.assign({id:e[0]},e[1]);}).sort(function(a,b){return b.count-a.count;});
   var sortedT=sorted.slice().sort(function(a,b){return(b.totalTime||0)-(a.totalTime||0);});
   var maxC=sorted[0]?sorted[0].count:1,maxT=sortedT[0]?(sortedT[0].totalTime||1):1;
-  function rankNum(i){
-    if(i===0)return'<div class="rank-num gold"><i class="fas fa-trophy" style="font-size:.65rem"></i></div>';
-    if(i===1)return'<div class="rank-num silver"><i class="fas fa-medal" style="font-size:.65rem"></i></div>';
-    if(i===2)return'<div class="rank-num bronze"><i class="fas fa-medal" style="font-size:.65rem"></i></div>';
-    return'<div class="rank-num">'+(i+1)+'</div>';
-  }
+  function rankNum(i){if(i===0)return'<div class="rank-num gold"><i class="fas fa-trophy" style="font-size:.65rem"></i></div>';if(i===1)return'<div class="rank-num silver"><i class="fas fa-medal" style="font-size:.65rem"></i></div>';if(i===2)return'<div class="rank-num bronze"><i class="fas fa-medal" style="font-size:.65rem"></i></div>';return'<div class="rank-num">'+(i+1)+'</div>';}
   var rp=document.getElementById("rank-list-plays");
-  if(rp){
-    if(!sorted.length)rp.innerHTML='<div class="rank-empty"><i class="fas fa-gamepad" style="margin-bottom:8px;display:block;font-size:1.4rem;opacity:.3"></i>No games played yet</div>';
-    else rp.innerHTML=sorted.slice(0,10).map(function(g,i){
-      return'<div class="rank-item">'+rankNum(i)
-        +'<img class="rank-cover" src="'+resolveCover(g.cover)+'" onerror="this.style.opacity=.3">'
-        +'<div class="rank-info"><div class="rank-name">'+g.name+'</div><div class="rank-sub">'+fmtDuration(g.totalTime||0)+' total</div></div>'
-        +'<div class="rank-bar-wrap"><div class="rank-bar" style="width:'+Math.round((g.count/maxC)*100)+'%"></div></div>'
-        +'<div class="rank-count">'+g.count+'x</div></div>';
-    }).join("");
-  }
+  if(rp){if(!sorted.length)rp.innerHTML='<div class="rank-empty"><i class="fas fa-gamepad" style="margin-bottom:8px;display:block;font-size:1.4rem;opacity:.3"></i>No games played yet</div>';
+  else rp.innerHTML=sorted.slice(0,10).map(function(g,i){return'<div class="rank-item">'+rankNum(i)+'<img class="rank-cover" src="'+resolveCover(g.cover)+'" onerror="this.style.opacity=.3"><div class="rank-info"><div class="rank-name">'+g.name+'</div><div class="rank-sub">'+fmtDuration(g.totalTime||0)+' total</div></div><div class="rank-bar-wrap"><div class="rank-bar" style="width:'+Math.round((g.count/maxC)*100)+'%"></div></div><div class="rank-count">'+g.count+'x</div></div>';}).join("");}
   var rt=document.getElementById("rank-list-time"),wt=sortedT.filter(function(g){return g.totalTime>0;});
-  if(rt){
-    if(!wt.length)rt.innerHTML='<div class="rank-empty"><i class="fas fa-clock" style="margin-bottom:8px;display:block;font-size:1.4rem;opacity:.3"></i>No time tracked yet</div>';
-    else rt.innerHTML=wt.slice(0,10).map(function(g,i){
-      return'<div class="rank-item">'+rankNum(i)
-        +'<img class="rank-cover" src="'+resolveCover(g.cover)+'" onerror="this.style.opacity=.3">'
-        +'<div class="rank-info"><div class="rank-name">'+g.name+'</div><div class="rank-sub">'+g.count+' sessions</div></div>'
-        +'<div class="rank-bar-wrap"><div class="rank-bar" style="width:'+Math.round(((g.totalTime||0)/maxT)*100)+'%"></div></div>'
-        +'<div class="rank-count">'+fmtDuration(g.totalTime||0)+'</div></div>';
-    }).join("");
-  }
+  if(rt){if(!wt.length)rt.innerHTML='<div class="rank-empty"><i class="fas fa-clock" style="margin-bottom:8px;display:block;font-size:1.4rem;opacity:.3"></i>No time tracked yet</div>';
+  else rt.innerHTML=wt.slice(0,10).map(function(g,i){return'<div class="rank-item">'+rankNum(i)+'<img class="rank-cover" src="'+resolveCover(g.cover)+'" onerror="this.style.opacity=.3"><div class="rank-info"><div class="rank-name">'+g.name+'</div><div class="rank-sub">'+g.count+' sessions</div></div><div class="rank-bar-wrap"><div class="rank-bar" style="width:'+Math.round(((g.totalTime||0)/maxT)*100)+'%"></div></div><div class="rank-count">'+fmtDuration(g.totalTime||0)+'</div></div>';}).join("");}
   var hl=document.getElementById("history-list");
-  if(hl){
-    if(!history.length)hl.innerHTML='<div class="history-empty"><i class="fas fa-list-ul" style="margin-bottom:8px;display:block;font-size:1.4rem;opacity:.3"></i>No play history yet. Start playing!</div>';
-    else hl.innerHTML=history.slice(0,100).map(function(h){
-      return'<div class="history-item">'
-        +'<img class="history-cover" src="'+resolveCover(h.cover)+'" onerror="this.style.opacity=.3">'
-        +'<div class="history-info"><div class="history-name">'+h.name+'</div>'
-        +'<div class="history-time"><i class="fas fa-clock" style="margin-right:4px;opacity:.5;font-size:.6rem"></i>'+fmtRelTime(h.ts)+'</div></div>'
-        +'<div class="history-duration">'+fmtDuration(h.duration)+'</div></div>';
-    }).join("");
-  }
+  if(hl){if(!history.length)hl.innerHTML='<div class="history-empty"><i class="fas fa-list-ul" style="margin-bottom:8px;display:block;font-size:1.4rem;opacity:.3"></i>No play history yet. Start playing!</div>';
+  else hl.innerHTML=history.slice(0,100).map(function(h){return'<div class="history-item"><img class="history-cover" src="'+resolveCover(h.cover)+'" onerror="this.style.opacity=.3"><div class="history-info"><div class="history-name">'+h.name+'</div><div class="history-time"><i class="fas fa-clock" style="margin-right:4px;opacity:.5;font-size:.6rem"></i>'+fmtRelTime(h.ts)+'</div></div><div class="history-duration">'+fmtDuration(h.duration)+'</div></div>';}).join("");}
 }
 
-// ─── ANNOUNCEMENTS ────────────────────────────────────────────
+// ── ANNOUNCEMENTS ────────────────────────────────────────────
+// Widget is created eagerly on DOMContentLoaded; hidden until data arrives.
 async function checkAnnouncements(){
   try{
     var res=await fetch(ANNOUNCE_URL);
     if(!res.ok)return;
     var data=await res.json();
-    var version=data.version||"1.0";
-    showAnnouncementCorner(data.announcements||[],version);
+    showAnnouncementWidget(data.announcements||[],data.version||"1.0");
   }catch(e){}
 }
-function showAnnouncementCorner(items,version){
-  var ex=document.getElementById("announce-corner");if(ex)ex.remove();
-  var widget=document.createElement("div");
-  widget.id="announce-corner";
-  widget.style.cssText="position:fixed;bottom:22px;right:22px;width:320px;background:var(--surface);border:1px solid var(--border-hover);border-radius:16px;box-shadow:0 8px 40px rgba(244,143,177,0.15),0 16px 48px rgba(0,0,0,0.4);z-index:9000;overflow:hidden;display:none;animation:slideUp .3s cubic-bezier(.34,1.56,.64,1)";
+function showAnnouncementWidget(items,version){
+  var el=document.getElementById("announce-corner");
+  if(!el)return;
+  if(!items||!items.length){el.remove();return;}
   var itemsHTML=items.map(function(item){
-    return'<div class="announce-item">'
-      +'<div class="announce-dot-col"><div class="announce-dot '+(item.dot||"muted")+'"></div></div>'
+    return'<div class="announce-item"><div class="announce-dot-col"><div class="announce-dot '+(item.dot||"muted")+'"></div></div>'
       +'<div class="announce-item-body">'+(item.title?'<div class="announce-item-title">'+item.title+'</div>':'')
       +'<div class="announce-item-text">'+item.body+'</div></div></div>';
   }).join("");
-  widget.innerHTML='<div class="announce-top" style="padding:14px 16px 12px">'
-    +'<div class="announce-brand">'
-    +'<img src="https://cdn.jsdelivr.net/gh/blossom-games/blossomgames@latest/blossomlogo.png" onerror="this.style.display=\'none\'">'
-    +'<div class="announce-brand-name">Blossom Games</div>'
-    +'<span class="announce-version-badge">v'+version+'</span></div>'
-    +'<button class="announce-close" onclick="document.getElementById(\'announce-corner\').style.display=\'none\'"><i class="fas fa-xmark"></i></button></div>'
-    +'<div class="announce-body" style="padding:14px 16px 6px;max-height:260px">'+itemsHTML+'</div>'
-    +'<div class="announce-footer" style="padding:10px 16px 16px">'
-    +'<button class="announce-footer-btn" onclick="document.getElementById(\'announce-corner\').style.display=\'none\'">'
-    +'<i class="fas fa-check" style="margin-right:8px"></i>Got it</button></div>';
-  document.body.appendChild(widget);
+  el.innerHTML='<div class="announce-top">'
+    +'<div class="announce-brand"><img src="https://cdn.jsdelivr.net/gh/blossom-games/blossomgames@latest/blossomlogo.png" onerror="this.style.display=\'none\'"><div class="announce-brand-name">Blossom Games</div><span class="announce-version-badge">v'+version+'</span></div>'
+    +'<button class="announce-close" onclick="document.getElementById(\'announce-corner\').remove()"><i class="fas fa-xmark"></i></button></div>'
+    +'<div class="announce-body">'+itemsHTML+'</div>'
+    +'<div class="announce-footer"><button class="announce-footer-btn" onclick="document.getElementById(\'announce-corner\').remove()"><i class="fas fa-check" style="margin-right:8px"></i>Got it</button></div>';
+  // Show it — already in DOM, just make it visible
+  el.style.display="block";
 }
 
-// ─── NAVIGATION ───────────────────────────────────────────────
+// ── NAVIGATION ───────────────────────────────────────────────
 function nav(page){
   ["home-content","settings","games-content","ai-content","stats-content"].forEach(function(id){
     var el=document.getElementById(id);if(el)el.style.display="none";
   });
-  var hud=document.getElementById("home-hud"),frame=document.getElementById("app-frame");
-  if(hud)hud.style.display="none";if(frame)frame.style.display="none";
+  var hud=document.getElementById("home-hud");
+  if(hud)hud.style.display="none";
   var zv=document.getElementById("zoneViewer");
   if(zv&&zv.style.display==="flex")closeZone();
   document.querySelectorAll(".nav-item").forEach(function(n){n.classList.remove("active");});
   var ni=document.getElementById("nav-"+page);if(ni)ni.classList.add("active");
-  var ac=document.getElementById("announce-corner");
   if(page==="home"){
     document.getElementById("home-content").style.display="grid";
     if(hud)hud.style.display="block";
     renderRecentlyPlayed();
-    if(ac)ac.style.display="block";
   }else{
-    if(ac)ac.style.display="none";
     if(page==="settings"){document.getElementById("settings").style.display="block";renderWordsEditor();renderCustomShortcuts();}
     else if(page==="games"){document.getElementById("games-content").style.display="flex";if(!gamesLoaded){gamesLoaded=true;gamesListZones();}}
-    else if(page==="ai"){document.getElementById("ai-content").style.display="block";if(frame)frame.style.display="block";loadIntoFrame("https://cdn.jsdelivr.net/gh/blossom-games/blossomgames@main/src/ai.html?v="+Date.now());sendThemeToIframe();}
+    else if(page==="ai"){document.getElementById("ai-content").style.display="block";}
     else if(page==="stats"){document.getElementById("stats-content").style.display="block";renderStatsPage();}
   }
 }
 
-// ─── LOAD INTO FRAME ──────────────────────────────────────────
-function loadIntoFrame(targetUrl){
-  var frame=document.getElementById("app-frame");frame.style.display="block";
-  var s=getComputedStyle(document.documentElement);
-  var accent=s.getPropertyValue("--accent").trim(),bg=s.getPropertyValue("--bg").trim(),font=s.getPropertyValue("--font").trim();
-  var inject=function(h){var sc='<script>(function(){document.documentElement.style.setProperty("--accent-color","'+accent+'");document.documentElement.style.setProperty("--bg-dark","'+bg+'");document.documentElement.style.setProperty("--font-family","'+font+'");})()</scr'+'ipt>';return h.includes("<head>")?h.replace("<head>","<head>"+sc):sc+h;};
-  if(targetUrl.startsWith("data:text/html")||targetUrl.trim().startsWith("<")){frame.removeAttribute("src");var raw=targetUrl.startsWith("data:")?decodeURIComponent(targetUrl.split(",")[1]):targetUrl;frame.srcdoc=inject(raw);frame.setAttribute("sandbox","allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox");return;}
-  if(targetUrl.includes("cdn.jsdelivr.net")){fetch(targetUrl).then(function(r){if(!r.ok)throw new Error();return r.text();}).then(function(h){frame.setAttribute("sandbox","allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox");frame.srcdoc=inject(h);}).catch(function(){frame.removeAttribute("srcdoc");frame.src=targetUrl;});}
-  else{frame.removeAttribute("srcdoc");if(!targetUrl.startsWith("http"))targetUrl="https://"+targetUrl;frame.src=targetUrl;}
-}
-
-// ─── SIDEBAR ──────────────────────────────────────────────────
+// ── SIDEBAR ──────────────────────────────────────────────────
 function updateSidebar(){
   var tg=document.getElementById("sidebar-nav-top"),bg=document.getElementById("sidebar-nav-bottom");
   tg.innerHTML="";bg.innerHTML="";
   function makeItem(id){
     var d=systemPages.find(function(p){return p.id===id;});if(!d)return null;
-    var el=document.createElement("div");
-    el.id="nav-"+d.id;el.className="nav-item";el.draggable=true;el.dataset.id=id;
+    var el=document.createElement("div");el.id="nav-"+d.id;el.className="nav-item";el.draggable=true;el.dataset.id=id;
     el.onclick=function(){nav(d.id);};
     el.innerHTML='<div class="nav-active-bar"></div><div class="nav-icon"><i class="'+d.icon+'"></i></div><span>'+d.name+"</span>";
     el.addEventListener("dragstart",function(){el.classList.add("dragging");});
@@ -724,28 +756,13 @@ function updateSidebar(){
   navOrder.bottom.forEach(function(id){var e=makeItem(id);if(e)bg.appendChild(e);});
   initDrag(tg);initDrag(bg);
 }
-function initDrag(c){
-  c.addEventListener("dragover",function(e){
-    e.preventDefault();var dr=document.querySelector(".dragging");if(!dr)return;
-    var after=getDragAfter(c,e.clientY);
-    if(!after)c.appendChild(dr);else c.insertBefore(dr,after);
-  });
-}
-function getDragAfter(c,y){
-  return Array.from(c.querySelectorAll(".nav-item:not(.dragging)")).reduce(function(cl,ch){
-    var b=ch.getBoundingClientRect(),o=y-b.top-b.height/2;
-    if(o<0&&o>cl.offset)return{offset:o,element:ch};return cl;
-  },{offset:Number.NEGATIVE_INFINITY}).element;
-}
-function saveNavOrder(){
-  navOrder.top=Array.from(document.querySelectorAll("#sidebar-nav-top .nav-item")).map(function(e){return e.dataset.id;});
-  navOrder.bottom=Array.from(document.querySelectorAll("#sidebar-nav-bottom .nav-item")).map(function(e){return e.dataset.id;});
-  localStorage.setItem("bg_nav_order",JSON.stringify(navOrder));
-}
+function initDrag(c){c.addEventListener("dragover",function(e){e.preventDefault();var dr=document.querySelector(".dragging");if(!dr)return;var after=getDragAfter(c,e.clientY);if(!after)c.appendChild(dr);else c.insertBefore(dr,after);});}
+function getDragAfter(c,y){return Array.from(c.querySelectorAll(".nav-item:not(.dragging)")).reduce(function(cl,ch){var b=ch.getBoundingClientRect(),o=y-b.top-b.height/2;if(o<0&&o>cl.offset)return{offset:o,element:ch};return cl;},{offset:Number.NEGATIVE_INFINITY}).element;}
+function saveNavOrder(){navOrder.top=Array.from(document.querySelectorAll("#sidebar-nav-top .nav-item")).map(function(e){return e.dataset.id;});navOrder.bottom=Array.from(document.querySelectorAll("#sidebar-nav-bottom .nav-item")).map(function(e){return e.dataset.id;});localStorage.setItem("bg_nav_order",JSON.stringify(navOrder));}
 
-// ─── BG/THEME ─────────────────────────────────────────────────
+// ── BG/THEME ─────────────────────────────────────────────────
 function applyBackground(type,val){
-  var root=document.documentElement,bui=document.getElementById("bg-url"),has=bui.value&&bui.value!=="none";
+  var root=document.documentElement,bui=document.getElementById("bg-url"),has=bui&&bui.value&&bui.value!=="none";
   if(type==="color")root.style.setProperty("--bg",val);
   else if(type==="url")root.style.setProperty("--bg-image",(val&&val!=="none")?"url("+val+")":"none");
   else if(type==="blur"&&has)root.style.setProperty("--bg-blur",val+"px");
@@ -766,24 +783,14 @@ function applyTheme(){
 function mixColor(h){try{var r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);return"#"+[Math.min(255,r+40),Math.max(0,g-20),Math.min(255,b+40)].map(function(v){return v.toString(16).padStart(2,"0");}).join("");}catch(e){return"#ce93d8";}}
 function applyTextColors(){var p=document.getElementById("text-primary-picker")?.value||"#eef0f5",d=document.getElementById("text-dim-picker")?.value||"#8892a0";document.documentElement.style.setProperty("--text-primary",p);document.documentElement.style.setProperty("--text-dim",d);saveConfig();}
 function syncColor(v){document.getElementById("theme-color").value=v;applyTheme();}
-function saveConfig(){localStorage.setItem("bg_config",JSON.stringify({title:document.getElementById("cloak-title").value,icon:document.getElementById("cloak-icon").value,color:document.getElementById("theme-color").value,bgColor:document.getElementById("bg-picker").value,bgUrl:document.getElementById("bg-url").value,bgBlur:document.getElementById("bg-blur-input").value,bgBright:document.getElementById("bg-bright-input").value,font:document.getElementById("font-select").value,initTarget:document.getElementById("init-target-select")?.value||"games",clockFormat:document.getElementById("clock-format-select")?.value||"12h-s",dateFormat:document.getElementById("date-format-select")?.value||"full",textPrimary:document.getElementById("text-primary-picker")?.value||"#eef0f5",textDim:document.getElementById("text-dim-picker")?.value||"#8892a0"}));}
+function saveConfig(){localStorage.setItem("bg_config",JSON.stringify({title:document.getElementById("cloak-title")?.value||"",icon:document.getElementById("cloak-icon")?.value||"",color:document.getElementById("theme-color")?.value||"#f48fb1",bgColor:document.getElementById("bg-picker")?.value||"#080a0f",bgUrl:document.getElementById("bg-url")?.value||"",bgBlur:document.getElementById("bg-blur-input")?.value||"0",bgBright:document.getElementById("bg-bright-input")?.value||"100",font:document.getElementById("font-select")?.value||"'Outfit',system-ui,sans-serif",initTarget:document.getElementById("init-target-select")?.value||"games",clockFormat:document.getElementById("clock-format-select")?.value||"12h-s",dateFormat:document.getElementById("date-format-select")?.value||"full",textPrimary:document.getElementById("text-primary-picker")?.value||"#eef0f5",textDim:document.getElementById("text-dim-picker")?.value||"#8892a0"}));}
 
-// ─── CLOAKER ──────────────────────────────────────────────────
+// ── CLOAKER ──────────────────────────────────────────────────
 var BG_FAV="https://cdn.jsdelivr.net/gh/blossom-games/blossomgames@latest/blossomlogo.png";
-function setFaviconFromUrl(url){
-  var isImg=/\.(ico|png|jpg|jpeg|gif|svg|webp)(\?|$)/i.test(url)||url.includes("s2/favicons");
-  var furl=isImg?url:(function(){try{return"https://www.google.com/s2/favicons?domain="+new URL(url.startsWith("http")?url:"https://"+url).hostname+"&sz=32";}catch(e){return url;}})();
-  document.querySelectorAll("link[rel*='icon']").forEach(function(l){l.remove();});
-  var l=document.createElement("link");l.rel="icon";l.type="image/png";l.href=furl;document.head.appendChild(l);
-}
+function setFaviconFromUrl(url){var isImg=/\.(ico|png|jpg|jpeg|gif|svg|webp)(\?|$)/i.test(url)||url.includes("s2/favicons");var furl=isImg?url:(function(){try{return"https://www.google.com/s2/favicons?domain="+new URL(url.startsWith("http")?url:"https://"+url).hostname+"&sz=32";}catch(e){return url;}})();document.querySelectorAll("link[rel*='icon']").forEach(function(l){l.remove();});var l=document.createElement("link");l.rel="icon";l.type="image/png";l.href=furl;document.head.appendChild(l);}
 function setDefaultFavicon(){setFaviconFromUrl(BG_FAV);}
 function resetToDefaultCloak(){document.getElementById("cloak-title").value="";document.getElementById("cloak-icon").value="";document.title=APP_NAME;setDefaultFavicon();saveConfig();}
-function applyCloak(){
-  var t=document.getElementById("cloak-title").value,ic=document.getElementById("cloak-icon").value;
-  if(t)document.title=t;
-  if(t==="about:blank"&&!ic){document.querySelectorAll("link[rel*='icon']").forEach(function(l){l.remove();});saveConfig();return;}
-  if(ic)setFaviconFromUrl(ic);else setDefaultFavicon();saveConfig();
-}
+function applyCloak(){var t=document.getElementById("cloak-title").value,ic=document.getElementById("cloak-icon").value;if(t)document.title=t;if(t==="about:blank"&&!ic){document.querySelectorAll("link[rel*='icon']").forEach(function(l){l.remove();});saveConfig();return;}if(ic)setFaviconFromUrl(ic);else setDefaultFavicon();saveConfig();}
 function renderPresets(){
   var list=document.getElementById("preset-list");if(!list)return;list.innerHTML="";
   tabPresets.forEach(function(p,i){var b=document.createElement("div");b.className="preset-btn";b.textContent=p.name;b.onclick=function(){usePreset(i);};list.appendChild(b);});
@@ -796,24 +803,13 @@ function deleteCustomPreset(i){customPresets.splice(i,1);localStorage.setItem("b
 function resetSettings(){if(confirm("Factory reset — wipe all data?")){localStorage.clear();location.reload();}}
 function openAboutBlankCloak(){var tab=window.open("about:blank","_blank");if(!tab){alert("Pop-up blocked!");return;}var h='<script>(async()=>{var r=await fetch("https://cdn.jsdelivr.net/gh/blossom-games/blossomgames@main/blossomsinglefile.html?v="+Date.now());var h=await r.text();document.open();document.write(h);document.close();})();<\/script>';tab.document.write(h);tab.document.close();}
 
-// ─── AFK CLOAK ────────────────────────────────────────────────
+// ── AFK CLOAK ────────────────────────────────────────────────
 (function(){
 var CURL="https://cdn.jsdelivr.net/gh/virtuan4-max/ghostlinkhub@main/assets/safety/clever.html";
 var on=false,secs=30,timer=null,active=false,cached=null,savedTitle,panicMode=false;
 async function prefetch(){if(cached)return;try{var r=await fetch(CURL+"?_="+Date.now());if(r.ok)cached=await r.text();}catch(e){}}
-async function activate(force){
-  if(active)return;if(!force&&!on)return;active=true;savedTitle=document.title;
-  var overlay=document.getElementById("afk-cloak-overlay"),frame=document.getElementById("afk-cloak-frame");
-  overlay.style.display="block";document.getElementById("afk-cloak-interceptor").focus();
-  var pid=localStorage.getItem("bg_cloak_page")||"clever",page=CLOAK_PAGES.find(function(p){return p.id===pid;})||CLOAK_PAGES[0];
-  document.title=page.title||page.label;setFaviconFromUrl(page.favicon);
-  if(pid==="clever"&&cached){frame.removeAttribute("src");frame.srcdoc=cached;}else{frame.removeAttribute("srcdoc");frame.src=page.url;}
-}
-function deactivate(){
-  if(!active)return;active=false;document.getElementById("afk-cloak-overlay").style.display="none";
-  var f=document.getElementById("afk-cloak-frame");f.removeAttribute("srcdoc");f.src="about:blank";
-  document.title=savedTitle||APP_NAME;applyCloak();reset();
-}
+async function activate(force){if(active)return;if(!force&&!on)return;active=true;savedTitle=document.title;var overlay=document.getElementById("afk-cloak-overlay"),frame=document.getElementById("afk-cloak-frame");overlay.style.display="block";document.getElementById("afk-cloak-interceptor").focus();var pid=localStorage.getItem("bg_cloak_page")||"clever",page=CLOAK_PAGES.find(function(p){return p.id===pid;})||CLOAK_PAGES[0];document.title=page.title||page.label;setFaviconFromUrl(page.favicon);if(pid==="clever"&&cached){frame.removeAttribute("src");frame.srcdoc=cached;}else{frame.removeAttribute("srcdoc");frame.src=page.url;}}
+function deactivate(){if(!active)return;active=false;document.getElementById("afk-cloak-overlay").style.display="none";var f=document.getElementById("afk-cloak-frame");f.removeAttribute("srcdoc");f.src="about:blank";document.title=savedTitle||APP_NAME;applyCloak();reset();}
 function reset(){clearTimeout(timer);if(on)timer=setTimeout(function(){activate(false);},secs*1000);}
 function activity(){if(panicMode)return;active?deactivate():reset();}
 ["mousemove","mousedown","keydown","touchstart","scroll"].forEach(function(e){document.addEventListener(e,activity,{passive:true});});
@@ -846,7 +842,7 @@ var CLOAK_PAGES=[
   {id:"coursera",label:"Coursera",url:"https://cdn.jsdelivr.net/gh/virtuan4-max/ghostlinkhub@main/assets/safety/coursera.html",title:"Coursera",favicon:"https://www.coursera.org/"}
 ];
 
-// ─── SHORTCUTS ────────────────────────────────────────────────
+// ── SHORTCUTS ────────────────────────────────────────────────
 function getUsedKeys(ex,exi){var u=[];if(ex!=="home")u.push(shortcuts.home);if(ex!=="games")u.push(shortcuts.games);if(ex!=="panic")u.push(shortcuts.panic);shortcuts.custom.forEach(function(sc,i){if(ex==="custom"&&i===exi)return;u.push(sc.key);});return u.filter(Boolean).map(function(k){return k.toUpperCase();});}
 function captureShortcut(action){var inp=document.getElementById("sc-"+action);inp.value="...";var fn=function(e){e.preventDefault();var k=e.key.toUpperCase();if(["ALT","CONTROL","SHIFT","META"].includes(k))return;var used=getUsedKeys(action,null);if(used.includes(k)){window.removeEventListener("keydown",fn);inp.value="TAKEN";inp.style.borderColor="#f06292";setTimeout(function(){inp.style.borderColor="";syncShortcutUI();},1200);return;}shortcuts[action]=k;inp.value=k;localStorage.setItem("bg_shortcuts",JSON.stringify(shortcuts));window.removeEventListener("keydown",fn);inp.blur();};window.addEventListener("keydown",fn);}
 function resetShortcuts(){shortcuts={home:"H",games:"G",panic:"P",custom:[]};localStorage.setItem("bg_shortcuts",JSON.stringify(shortcuts));syncShortcutUI();}
@@ -857,11 +853,11 @@ function captureCustomShortcutKey(idx){var rows=document.querySelectorAll("#cust
 function addCustomShortcut(){var k=document.getElementById("new-sc-key").value.trim().toUpperCase(),a=document.getElementById("new-sc-action").value;if(!k||k==="...")return;var used=getUsedKeys("custom",-1);if(used.includes(k)){var inp=document.getElementById("new-sc-key");inp.value="TAKEN";inp.style.borderColor="#f06292";setTimeout(function(){inp.style.borderColor="";inp.value="";},1200);return;}shortcuts.custom.push({key:k,action:a});localStorage.setItem("bg_shortcuts",JSON.stringify(shortcuts));document.getElementById("new-sc-key").value="";renderCustomShortcuts();}
 function deleteCustomShortcut(i){shortcuts.custom.splice(i,1);localStorage.setItem("bg_shortcuts",JSON.stringify(shortcuts));renderCustomShortcuts();}
 
-// ─── EXPORT/IMPORT ────────────────────────────────────────────
-function exportData(){var d={shortcuts:shortcuts,config:JSON.parse(localStorage.getItem("bg_config")),navOrder:navOrder,words:words,customPresets:customPresets};var blob=new Blob([JSON.stringify(d,null,2)],{type:"application/json"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="blossom_games_backup_"+new Date().toISOString().slice(0,10)+".json";a.click();}
+// ── EXPORT/IMPORT ────────────────────────────────────────────
+function exportData(){var d={shortcuts:shortcuts,config:JSON.parse(localStorage.getItem("bg_config")||"{}"),navOrder:navOrder,words:words,customPresets:customPresets};var blob=new Blob([JSON.stringify(d,null,2)],{type:"application/json"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="blossom_games_backup_"+new Date().toISOString().slice(0,10)+".json";a.click();}
 function importData(input){var f=input.files[0];if(!f)return;var r=new FileReader();r.onload=function(e){try{var d=JSON.parse(e.target.result);if(d.shortcuts){shortcuts=d.shortcuts;localStorage.setItem("bg_shortcuts",JSON.stringify(shortcuts));}if(d.config)localStorage.setItem("bg_config",JSON.stringify(d.config));if(d.navOrder){navOrder=d.navOrder;localStorage.setItem("bg_nav_order",JSON.stringify(navOrder));}if(d.words&&d.words.length){words=d.words;localStorage.setItem("bg_words",JSON.stringify(words));}alert("Import successful! Reloading...");location.reload();}catch(ex){alert("Invalid file.");}};r.readAsText(f);}
 
-// ─── CLOCK ────────────────────────────────────────────────────
+// ── CLOCK ────────────────────────────────────────────────────
 function updateClock(){
   var now=new Date(),ce=document.getElementById("home-clock"),de=document.getElementById("home-date");
   var cf=document.getElementById("clock-format-select")?.value||"12h-s",df=document.getElementById("date-format-select")?.value||"full";
@@ -869,7 +865,7 @@ function updateClock(){
   if(de){var d="";if(df==="full")d=now.toLocaleDateString("en-US",{weekday:"long",year:"numeric",month:"long",day:"numeric"}).toUpperCase();else if(df==="short")d=now.toLocaleDateString("en-US",{weekday:"short",month:"short",day:"numeric",year:"numeric"}).toUpperCase();else if(df==="numeric")d=now.toLocaleDateString("en-US",{year:"numeric",month:"2-digit",day:"2-digit"});else if(df==="iso")d=now.toISOString().slice(0,10);de.textContent=d;de.style.display=df==="off"?"none":"";}
 }
 
-// ─── TYPEWRITER ───────────────────────────────────────────────
+// ── TYPEWRITER ───────────────────────────────────────────────
 var wordIdx=0,charIdx=0,isDeleting=false;
 function type(){var t=document.getElementById("typewriter");if(!t)return;var cur=words[wordIdx%words.length];t.textContent=cur.substring(0,charIdx);if(isDeleting)charIdx--;else charIdx++;var spd=isDeleting?45:110;if(!isDeleting&&charIdx>cur.length){isDeleting=true;spd=2000;}else if(isDeleting&&charIdx<0){isDeleting=false;wordIdx=(wordIdx+1)%words.length;charIdx=0;spd=500;}setTimeout(type,spd);}
 function saveWords(){localStorage.setItem("bg_words",JSON.stringify(words));}
@@ -877,11 +873,7 @@ function renderWordsEditor(){var list=document.getElementById("word-list");if(!l
 function addTypewriterWord(){var inp=document.getElementById("new-word-input");var v=inp.value.trim();if(!v)return;words.push(v);saveWords();inp.value="";renderWordsEditor();}
 function deleteTypewriterWord(i){if(words.length<=1)return;words.splice(i,1);saveWords();renderWordsEditor();}
 
-// ─── THEME TO IFRAME ──────────────────────────────────────────
-function sendThemeToIframe(){var frame=document.getElementById("app-frame");if(!frame||!frame.contentWindow)return;var s=getComputedStyle(document.documentElement);frame.contentWindow.postMessage({type:"GHOSTLINK_THEME_DATA",theme:{accent:s.getPropertyValue("--accent").trim(),bg:s.getPropertyValue("--bg").trim(),font:s.getPropertyValue("--font").trim()}},"*");}
-window.addEventListener("message",function(e){if(e.data?.type==="GHOSTLINK_QUERY_THEME")sendThemeToIframe();});
-
-// ─── WEATHER ──────────────────────────────────────────────────
+// ── WEATHER ──────────────────────────────────────────────────
 var WMO_META={0:["fa-sun","Clear sky"],1:["fa-sun","Mainly clear"],2:["fa-cloud-sun","Partly cloudy"],3:["fa-cloud","Overcast"],45:["fa-smog","Foggy"],48:["fa-smog","Icy fog"],51:["fa-cloud-drizzle","Light drizzle"],53:["fa-cloud-drizzle","Drizzle"],55:["fa-cloud-drizzle","Heavy drizzle"],61:["fa-cloud-rain","Light rain"],63:["fa-cloud-rain","Rain"],65:["fa-cloud-showers-heavy","Heavy rain"],71:["fa-snowflake","Light snow"],73:["fa-snowflake","Snow"],75:["fa-snowflake","Heavy snow"],77:["fa-snowflake","Snow grains"],80:["fa-cloud-rain","Light showers"],81:["fa-cloud-showers-heavy","Showers"],82:["fa-cloud-showers-heavy","Heavy showers"],85:["fa-snowflake","Snow showers"],86:["fa-snowflake","Heavy snow showers"],95:["fa-bolt","Thunderstorm"],96:["fa-bolt","Thunderstorm"],99:["fa-bolt","Severe thunderstorm"]};
 async function loadWeather(){
   var w=document.getElementById("weather-widget");if(!w)return;
@@ -903,7 +895,83 @@ async function loadWeather(){
   }catch(e){w.innerHTML='<div style="color:var(--text-dim);font-size:.82rem"><i class="fas fa-triangle-exclamation" style="margin-right:6px"></i>Weather unavailable</div>';}
 }
 
-// ─── GAMES ────────────────────────────────────────────────────
+// ── AI CHAT (Groq via Worker) ─────────────────────────────────
+var aiMessages=[];
+var aiCurrentModel="llama-3.3-70b-versatile";
+var aiSystemPrompt="You are a helpful, friendly assistant built into Blossom Games. Keep answers concise and clear.";
+var aiIsStreaming=false;
+
+function saveAiSettings(){
+  var m=document.getElementById("ai-model-setting")?.value||aiCurrentModel;
+  var sp=document.getElementById("ai-system-prompt")?.value||aiSystemPrompt;
+  aiCurrentModel=m;aiSystemPrompt=sp;
+  document.getElementById("ai-model-display").value=m;
+  localStorage.setItem("bg_ai_model",m);localStorage.setItem("bg_ai_system",sp);
+}
+function aiChangeModel(v){
+  aiCurrentModel=v;
+  if(document.getElementById("ai-model-setting"))document.getElementById("ai-model-setting").value=v;
+  localStorage.setItem("bg_ai_model",v);
+}
+function aiSuggest(text){document.getElementById("ai-input").value=text;aiSend();}
+function aiClearHistory(){
+  aiMessages=[];
+  var msgs=document.getElementById("ai-messages");
+  msgs.innerHTML='<div class="ai-empty" id="ai-empty"><div class="ai-empty-icon"><i class="fas fa-robot"></i></div><div class="ai-empty-title">Ask me anything</div><div class="ai-empty-sub">Powered by Groq — blazing fast AI responses.</div><div class="ai-suggestions"><button class="ai-suggestion-btn" onclick="aiSuggest(\'Give me a game recommendation\')">🎮 Game rec</button><button class="ai-suggestion-btn" onclick="aiSuggest(\'What is quantum computing?\')">🔬 Science</button><button class="ai-suggestion-btn" onclick="aiSuggest(\'Write me a short poem\')">✍️ Creative</button><button class="ai-suggestion-btn" onclick="aiSuggest(\'Tell me a fun fact\')">🎲 Fun fact</button></div></div>';
+}
+function aiAppendMsg(role,content){
+  var empty=document.getElementById("ai-empty");if(empty)empty.remove();
+  var msgs=document.getElementById("ai-messages");
+  var div=document.createElement("div");div.className="ai-msg "+(role==="user"?"user":"bot");
+  var avatar=document.createElement("div");avatar.className="ai-avatar "+(role==="user"?"user":"bot");
+  avatar.innerHTML=role==="user"?'<i class="fas fa-user" style="font-size:.7rem;color:var(--text-dim)"></i>':'<i class="fas fa-robot" style="font-size:.7rem"></i>';
+  var bubble=document.createElement("div");bubble.className="ai-bubble "+(role==="user"?"user":"bot");
+  if(role==="assistant"){bubble.innerHTML=aiMarkdown(content);}else{bubble.textContent=content;}
+  div.append(avatar,bubble);msgs.appendChild(div);
+  msgs.scrollTop=msgs.scrollHeight;
+  return bubble;
+}
+function aiMarkdown(text){
+  // Simple markdown: code blocks, inline code, bold, italic, newlines
+  return text
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+    .replace(/```(\w*)\n?([\s\S]*?)```/g,function(_,lang,code){return'<pre><code>'+(code.trim())+'</code></pre>';})
+    .replace(/`([^`]+)`/g,'<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>')
+    .replace(/\*([^*]+)\*/g,'<em>$1</em>')
+    .replace(/\n/g,'<br>');
+}
+async function aiSend(){
+  if(aiIsStreaming)return;
+  var inp=document.getElementById("ai-input"),errEl=document.getElementById("ai-error");
+  var text=inp.value.trim();if(!text)return;
+  errEl.style.display="none";inp.value="";inp.style.height="44px";
+  aiMessages.push({role:"user",content:text});
+  aiAppendMsg("user",text);
+  // Typing indicator
+  var msgs=document.getElementById("ai-messages");
+  var typDiv=document.createElement("div");typDiv.className="ai-msg bot";typDiv.id="ai-typing-indicator";
+  var ta=document.createElement("div");ta.className="ai-avatar bot";ta.innerHTML='<i class="fas fa-robot" style="font-size:.7rem"></i>';
+  var tb=document.createElement("div");tb.className="ai-bubble bot";tb.innerHTML='<div class="ai-typing"><span></span><span></span><span></span></div>';
+  typDiv.append(ta,tb);msgs.appendChild(typDiv);msgs.scrollTop=msgs.scrollHeight;
+  var sendBtn=document.getElementById("ai-send-btn");sendBtn.disabled=true;aiIsStreaming=true;
+  try{
+    var payload={model:aiCurrentModel,messages:[{role:"system",content:aiSystemPrompt},...aiMessages],max_tokens:1024,stream:false};
+    var res=await fetch(GROQ_WORKER_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+    var data=await res.json();
+    if(data.error){throw new Error(data.error.message||JSON.stringify(data.error));}
+    var reply=data.choices?.[0]?.message?.content||"(no response)";
+    aiMessages.push({role:"assistant",content:reply});
+    var ti=document.getElementById("ai-typing-indicator");if(ti)ti.remove();
+    aiAppendMsg("assistant",reply);
+  }catch(e){
+    var ti2=document.getElementById("ai-typing-indicator");if(ti2)ti2.remove();
+    errEl.textContent="Error: "+e.message;errEl.style.display="block";
+    aiMessages.pop();// remove user msg from history on error
+  }finally{sendBtn.disabled=false;aiIsStreaming=false;msgs.scrollTop=msgs.scrollHeight;}
+}
+
+// ── GAMES ────────────────────────────────────────────────────
 function cleanHTML(html){html=html.replace(/#sidebarad1\s*,\s*\n?#sidebarad2[\s\S]*?\.sidebar-frame\s*\{[\s\S]*?\}/g,"");html=html.replace(/<div\s+id=["']sidebarad[12]["'][^>]*>[\s\S]*?<\/div>\s*(<\/div>)?/g,"");html=html.replace(/<script(\s[^>]*)?>[\s\S]*?<\/script>/gi,function(tag){if(/\ssrc\s*=/i.test(tag))return tag;var body=tag.replace(/<script[^>]*>/i,"").replace(/<\/script>/i,"");if(/_0x[a-f0-9]{3,}/gi.test(body)||/eval\s*\(/i.test(body)||/atob\s*\(/i.test(body))return"";return tag;});html=html.replace(/<style>[^<]*#sidebarad[\s\S]*?<\/style>/g,"");return html;}
 var gamesContainer=document.getElementById("gamesContainer"),zoneViewer=document.getElementById("zoneViewer");
 var zoneFrame=document.getElementById("zoneFrame"),gamesFeatContainer=document.getElementById("gamesFeaturedContainer"),gamesFeatWrapper=document.getElementById("gamesFeaturedWrapper");
@@ -964,8 +1032,9 @@ function closeZone(){recordGameClose();zoneViewer.style.display="none";if(zoneFr
 function fullscreenZone(){if(zoneFrame.requestFullscreen)zoneFrame.requestFullscreen();else if(zoneFrame.webkitRequestFullscreen)zoneFrame.webkitRequestFullscreen();}
 window.addEventListener("resize",function(){if(featuredGames.length>0)gamesRenderFeatured();});
 
-// ─── INIT ─────────────────────────────────────────────────────
+// ── INIT ─────────────────────────────────────────────────────
 function glInitSystems(){nav(document.getElementById("init-target-select")?.value||"games");}
+
 window.onload=function(){
   renderPresets();
   var saved=JSON.parse(localStorage.getItem("bg_config")||"null");
@@ -985,6 +1054,14 @@ window.onload=function(){
     if(saved.bgUrl)applyBackground("url",saved.bgUrl);
     applyBackground("blur",saved.bgBlur||"0");applyBackground("brightness",saved.bgBright||"100");
   }else{applyCloak();applyBackground("color","#080a0f");}
+
+  // Load AI settings
+  aiCurrentModel=localStorage.getItem("bg_ai_model")||"llama-3.3-70b-versatile";
+  aiSystemPrompt=localStorage.getItem("bg_ai_system")||aiSystemPrompt;
+  document.getElementById("ai-model-display").value=aiCurrentModel;
+  if(document.getElementById("ai-model-setting"))document.getElementById("ai-model-setting").value=aiCurrentModel;
+  if(document.getElementById("ai-system-prompt"))document.getElementById("ai-system-prompt").value=aiSystemPrompt;
+
   setTimeout(function(){var ic=document.getElementById("cloak-icon").value,t=document.getElementById("cloak-title").value;if(t==="about:blank"&&!ic)return;ic?setFaviconFromUrl(ic):setDefaultFavicon();},1000);
   syncShortcutUI();
   window.addEventListener("keydown",function(e){
@@ -998,13 +1075,24 @@ window.onload=function(){
   var lastFrame=performance.now();
   function updateFPS(){var now=performance.now();document.getElementById("fps").textContent=Math.round(1000/(now-lastFrame));lastFrame=now;requestAnimationFrame(updateFPS);}
   updateFPS();
-  async function updatePing(){try{var s=performance.now();await fetch("https://www.google.com/favicon.ico?_="+Date.now(),{method:"HEAD",cache:"no-store",mode:"no-cors"});document.getElementById("ping").textContent=Math.round(performance.now()-s);}catch(e){document.getElementById("ping").textContent="??";}}
+  async function updatePing(){try{var s=performance.now();await fetch("https://www.google.com/favicon.ico?_="+Date.now(),{method:"HEAD",cache:"no-store",mode:"no-cors"});document.getElementById("ping").textContent=Math.round(performance.now()-s);}catch(e){document.getElementById("ping").textContent="??";}};
   updatePing();setInterval(updatePing,6000);
   if(navigator.getBattery)navigator.getBattery().then(function(bat){var upd=function(){var lvl=Math.round(bat.level*100);var fill=document.getElementById("bat-fill");var txt=document.getElementById("bat-text");if(fill)fill.style.width=lvl+"%";if(txt)txt.textContent=lvl+"%";};bat.addEventListener("levelchange",upd);upd();});
   updateSidebar();type();updateClock();setInterval(updateClock,1000);
+
+  // ── Create announcement widget immediately (hidden), fetch fills it ──
+  var announceEl=document.createElement("div");
+  announceEl.id="announce-corner";
+  announceEl.className="announce-corner";
+  announceEl.style.display="none"; // hidden until data arrives
+  document.body.appendChild(announceEl);
+
   nav("home");
-  setTimeout(loadWeather,600);
-  setTimeout(checkAnnouncements,1400);
+
+  // Start data fetches
+  setTimeout(loadWeather,400);
+  // Announcements: fetch ASAP, show immediately on home load
+  checkAnnouncements();
 };
 </script>
 </body>
