@@ -977,17 +977,17 @@ var gamesContainer=document.getElementById("gamesContainer"),zoneViewer=document
 var zoneFrame=document.getElementById("zoneFrame"),gamesFeatContainer=document.getElementById("gamesFeaturedContainer"),gamesFeatWrapper=document.getElementById("gamesFeaturedWrapper");
 var gamesPopData={},gamesLoaded=false,zones=[],gamesFavs=JSON.parse(localStorage.getItem("bg-game-favs")||"[]"),showFavsOnly=false;
 var featuredGames=[],carouselIdx=0,carouselTimer,pauseTimer,isTransitioning=false;
-var zonesurls=["https://cdn.jsdelivr.net/gh/gn-math/assets@main/zones.json","https://cdn.jsdelivr.net/gh/gn-math/assets@latest/zones.json","https://cdn.jsdelivr.net/gh/gn-math/assets@master/zones.json"];
+var zonesurls=["https://cdn.jsdelivr.net/gh/freebuisness/assets@main/zones.json","https://cdn.jsdelivr.net/gh/freebuisness/assets@latest/zones.json","https://cdn.jsdelivr.net/gh/freebuisness/assets@master/zones.json"];
 var zonesURL=zonesurls[Math.floor(Math.random()*zonesurls.length)];
-var coverURL="https://cdn.jsdelivr.net/gh/gn-math/covers@main",htmlURL="https://cdn.jsdelivr.net/gh/gn-math/html@main";
+var coverURL="https://cdn.jsdelivr.net/gh/freebuisness/covers@main",htmlURL="https://cdn.jsdelivr.net/gh/freebuisness/html@main";
 async function gamesListZones(){
   try{
-    try{var sr=await fetch("https://api.github.com/repos/gn-math/assets/commits?t="+Date.now());if(sr.ok){var sj=await sr.json();var sha=sj[0]?.sha;if(sha)zonesURL="https://cdn.jsdelivr.net/gh/gn-math/assets@"+sha+"/zones.json";}}catch(e){}
+    try{var sr=await fetch("https://api.github.com/repos/freebuisness/assets/commits?t="+Date.now());if(sr.ok){var sj=await sr.json();var sha=sj[0]?.sha;if(sha)zonesURL="https://cdn.jsdelivr.net/gh/freebuisness/assets@"+sha+"/zones.json";}}catch(e){}
     zones=await(await fetch(zonesURL+"?t="+Date.now())).json();
     await gamesFetchPop();gamesSetupFeatured();gamesHandleSearch();
   }catch(e){gamesContainer.innerHTML='<div style="color:var(--text-dim);font-size:.88rem;grid-column:1/-1;text-align:center;padding:40px 0"><i class="fas fa-circle-exclamation" style="display:block;margin-bottom:10px;font-size:1.4rem;opacity:.4"></i>Failed to load games</div>';}
 }
-async function gamesFetchPop(){try{var d=await(await fetch("https://data.jsdelivr.com/v1/stats/packages/gh/gn-math/html@main/files?period=year")).json();d.forEach(function(f){var m=f.name.match(/\/(\d+)\.html$/);if(m)gamesPopData[parseInt(m[1])]=f.hits.total;});}catch(e){}}
+async function gamesFetchPop(){try{var d=await(await fetch("https://data.jsdelivr.com/v1/stats/packages/gh/freebuisness/html@main/files?period=year")).json();d.forEach(function(f){var m=f.name.match(/\/(\d+)\.html$/);if(m)gamesPopData[parseInt(m[1])]=f.hits.total;});}catch(e){}}
 function gamesSetupFeatured(){
   if(zones.length<5)return;
   var now=new Date(),seed=now.getFullYear()+"-"+now.getMonth()+"-"+now.getDate()+(now.getHours()<12?"AM":"PM");
