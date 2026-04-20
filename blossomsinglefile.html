@@ -6,7 +6,7 @@
 <title>Blossom Games</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
 :root{--bg:#080a0f;--surface:#0d1117;--surface2:#141820;--sidebar-bg:rgba(8,10,15,0.92);--accent:#f48fb1;--accent2:#ce93d8;--accent-glow:rgba(244,143,177,0.18);--text-primary:#eef0f5;--text-dim:#8892a0;--text-muted:#4a5260;--border:rgba(255,255,255,0.06);--border-hover:rgba(244,143,177,0.22);--font:"Outfit",system-ui,sans-serif;--mono:"JetBrains Mono",monospace;--card-bg:rgba(255,255,255,0.03);--input-bg:rgba(255,255,255,0.04);--gradient:linear-gradient(135deg,#f48fb1 0%,#ce93d8 100%);--gradient-subtle:linear-gradient(135deg,rgba(244,143,177,0.12) 0%,rgba(206,147,216,0.12) 100%);--radius:14px;--radius-sm:8px;--sidebar-w:68px;}
@@ -150,7 +150,7 @@ textarea{height:130px;resize:none;font-family:var(--mono);}
 .games-heart-btn{position:absolute;top:12px;right:12px;background:rgba(8,10,15,0.75);border:1px solid var(--border);border-radius:50%;width:28px;height:28px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--text-muted);transition:0.18s;z-index:5;backdrop-filter:blur(4px);}
 .games-heart-btn:hover{color:#f48fb1;border-color:rgba(244,143,177,0.4);}
 .games-heart-btn.active{color:#f06292;border-color:rgba(240,98,146,0.35);}
-.zone-item p{margin-top:8px;font-size:0.8rem;color:var(--text-dim);transition:0.18s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500;}
+.zone-item p{margin-top:8px;font-size:0.8rem;color:var(--text-dim);transition:0.18s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500;font-family:'Noto Sans',sans-serif;}
 .zone-item:hover p{color:var(--accent);}
 #zoneViewer{position:fixed;top:0;left:var(--sidebar-w);right:0;bottom:0;background:var(--bg);display:none;flex-direction:column;z-index:2000;animation:fadeIn 0.25s ease;}
 .zone-header{padding:12px 16px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
@@ -1088,12 +1088,54 @@ window.onload=function(){
   document.body.appendChild(announceEl);
 
   nav("home");
-
+  setTimeout(() => obfuscateDOM(), 100);
   // Start data fetches
   setTimeout(loadWeather,400);
   // Announcements: fetch ASAP, show immediately on home load
   checkAnnouncements();
 };
+const GLYPH_MAP = {
+  'a':'ɑ','b':'ƅ','c':'с','d':'ԁ','e':'е','f':'ғ','g':'ɡ',
+  'h':'һ','i':'і','j':'ϳ','k':'κ','l':'ӏ','m':'м','n':'ո',
+  'o':'о','p':'р','q':'զ','r':'г','s':'ѕ','t':'т','u':'υ',
+  'v':'ν','w':'ᴡ','x':'х','y':'у','z':'ᴢ',
+  'A':'Ꭺ','B':'Ᏼ','C':'Ꮯ','D':'Ꭰ','E':'Ꭼ','F':'Ғ','G':'Ꮐ',
+  'H':'Ꮋ','I':'Ι','J':'Ꭻ','K':'Ꮶ','L':'Ꮮ','M':'Ꮇ','N':'Ν',
+  'O':'Ꮎ','P':'Ꮲ','Q':'Ꮕ','R':'Ꮢ','S':'Ꮪ','T':'Ꭲ','U':'Ս',
+  'V':'Ꮩ','W':'Ꮃ','X':'Χ','Y':'Ꭹ','Z':'Ꮓ'
+};
+
+function glyphify(str) {
+  return String(str).split('').map(c => GLYPH_MAP[c] || c).join('');
+}
+
+function obfuscateDOM(root) {
+  const walker = document.createTreeWalker(
+    root || document.body,
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode(node) {
+        const tag = node.parentElement?.tagName;
+        if (['SCRIPT','STYLE','TEXTAREA','INPUT','CODE','PRE'].includes(tag)) {
+          return NodeFilter.FILTER_REJECT;
+        }
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    }
+  );
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(n => { n.textContent = glyphify(n.textContent); });
+}
+
+const _glyphObserver = new MutationObserver(mutations => {
+  mutations.forEach(m => {
+    m.addedNodes.forEach(node => {
+      if (node.nodeType === 1) obfuscateDOM(node);
+    });
+  });
+});
+_glyphObserver.observe(document.body, { childList: true, subtree: true });
 </script>
 </body>
 </html>
