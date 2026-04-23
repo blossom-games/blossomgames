@@ -319,7 +319,7 @@ textarea{height:130px;resize:none;font-family:var(--mono);}
     <div class="hero-eyebrow">Blossom Games Hub</div>
     <h1>Welcome back.<br><span class="hero-gradient" id="typewriter"></span></h1>
     <p class="hero-sub">Your personal arcade — games, tools, and everything in between.</p>
-    <button class="play-btn" onclick="glInitSystems()"><i class="fas fa-play" style="font-size:.8rem"></i> Play Now</button>
+    <button class="play-btn" onclick="glInitSystems()"><i class="fas fa-play" style="font-size:.8rem"></i> Play Now</button> <button class="play-btn" id="download-btn" style="background:transparent;border:1px solid rgba(244,143,177,0.4);box-shadow:none;margin-left:10px;" onclick="downloadApp()"><i class="fas fa-download" style="font-size:.8rem"></i> Download</button>
   </div>
   <div class="clock-container">
     <div id="home-clock">00:00:00</div>
@@ -1034,7 +1034,27 @@ window.addEventListener("resize",function(){if(featuredGames.length>0)gamesRende
 
 // ── INIT ─────────────────────────────────────────────────────
 function glInitSystems(){nav(document.getElementById("init-target-select")?.value||"games");}
-
+async function downloadApp() {
+  const btn = document.getElementById("download-btn");
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size:.8rem"></i> Downloading...';
+  btn.disabled = true;
+  try {
+    const url = "https://cdn.jsdelivr.net/gh/blossom-games/blossomgames@latest/blossomsinglefile.html?v=" + Date.now();
+    const res = await fetch(url);
+    const html = await res.text();
+    const blob = new Blob([html], { type: "text/html" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "blossom-games.html";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  } catch(e) {
+    alert("Download failed: " + e.message);
+  } finally {
+    btn.innerHTML = '<i class="fas fa-download" style="font-size:.8rem"></i> Download';
+    btn.disabled = false;
+  }
+}
 window.onload=function(){
   renderPresets();
   var saved=JSON.parse(localStorage.getItem("bg_config")||"null");
@@ -1088,6 +1108,7 @@ window.onload=function(){
   document.body.appendChild(announceEl);
 
   nav("home");
+  if (location.protocol === "file:") document.getElementById("download-btn").style.display = "none";
   setTimeout(() => obfuscateDOM(), 100);
   // Start data fetches
   setTimeout(loadWeather,400);
