@@ -43,10 +43,11 @@ body {
   justify-content: center;
   padding: 24px;
   position: relative;
-  overflow: hidden;
+  /* Allow scroll on small screens */
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-/* Ambient background glow */
 body::after {
   content: "";
   position: fixed;
@@ -58,7 +59,6 @@ body::after {
   z-index: 0;
 }
 
-/* Subtle noise grain */
 body::before {
   content: "";
   position: fixed;
@@ -76,6 +76,8 @@ body::before {
   width: 100%;
   max-width: 440px;
   animation: sceneIn 0.5s cubic-bezier(0.23, 1, 0.32, 1) both;
+  /* Allow content to grow naturally */
+  margin: auto;
 }
 
 @keyframes sceneIn {
@@ -83,7 +85,6 @@ body::before {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── CARD ── */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -95,7 +96,6 @@ body::before {
     0 4px 16px rgba(0,0,0,0.3);
 }
 
-/* ── CARD HEADER ── */
 .card-header {
   padding: 20px 22px 16px;
   border-bottom: 1px solid var(--border);
@@ -163,12 +163,10 @@ body::before {
   flex-shrink: 0;
 }
 
-/* ── CARD BODY ── */
 .card-body {
   padding: 24px 22px;
 }
 
-/* ── HERO SECTION ── */
 .hero-eyebrow {
   font-size: 0.65rem;
   font-weight: 600;
@@ -224,7 +222,6 @@ body::before {
   color: var(--accent);
 }
 
-/* ── DIVIDER ── */
 .divider {
   display: flex;
   align-items: center;
@@ -248,7 +245,6 @@ body::before {
   flex-shrink: 0;
 }
 
-/* ── STATUS ROW ── */
 .status-row {
   display: flex;
   align-items: center;
@@ -287,7 +283,6 @@ body::before {
   font-weight: 500;
 }
 
-/* ── LAUNCH BUTTON ── */
 .btn-launch {
   width: 100%;
   padding: 13px 22px;
@@ -335,7 +330,6 @@ body::before {
   transform: none;
 }
 
-/* ── SECONDARY BUTTON ── */
 .btn-secondary {
   width: 100%;
   padding: 11px 22px;
@@ -368,7 +362,6 @@ body::before {
   cursor: not-allowed;
 }
 
-/* ── LOADER ── */
 .loader {
   width: 15px;
   height: 15px;
@@ -386,7 +379,6 @@ body::before {
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ── ERROR ── */
 .error-box {
   display: none;
   margin-top: 12px;
@@ -398,46 +390,14 @@ body::before {
   color: #f06292;
   font-family: var(--mono);
   line-height: 1.5;
-  display: none;
   align-items: flex-start;
   gap: 8px;
 }
 
-.error-box.visible {
-  display: flex;
-}
+.error-box.visible { display: flex; }
 
-.error-box i {
-  margin-top: 1px;
-  flex-shrink: 0;
-  font-size: 0.72rem;
-}
+.error-box i { margin-top: 1px; flex-shrink: 0; font-size: 0.72rem; }
 
-/* ── CARD FOOTER ── */
-.card-footer {
-  padding: 13px 22px;
-  border-top: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.footer-note {
-  font-size: 0.66rem;
-  color: var(--text-muted);
-  font-family: var(--mono);
-  line-height: 1.5;
-  flex: 1;
-}
-
-.footer-note i {
-  color: var(--accent);
-  margin-right: 5px;
-  font-size: 0.62rem;
-}
-
-/* ── HUD STRIP ── */
 .hud-strip {
   display: flex;
   align-items: center;
@@ -463,10 +423,7 @@ body::before {
   font-weight: 600;
 }
 
-.hud-val {
-  color: var(--accent);
-  font-weight: 500;
-}
+.hud-val { color: var(--accent); font-weight: 500; }
 
 .hud-dot {
   width: 5px;
@@ -477,7 +434,6 @@ body::before {
   animation: pulse 2s ease infinite;
 }
 
-/* ── SUCCESS STATE ── */
 .success-box {
   display: none;
   margin-top: 12px;
@@ -502,7 +458,6 @@ body::before {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ── PRESETS STRIP ── */
 .presets-strip {
   display: flex;
   gap: 6px;
@@ -532,6 +487,53 @@ body::before {
 }
 
 .preset-pill i { font-size: 0.6rem; }
+
+/* ── MOBILE STYLES ── */
+@media (max-width: 480px) {
+  body {
+    padding: 16px;
+    align-items: flex-start;
+  }
+
+  .scene {
+    margin: 0 auto;
+  }
+
+  /* Hide non-essential elements on small screens */
+  .hero-eyebrow,
+  .hero-sub,
+  .presets-strip,
+  .divider,
+  .status-row,
+  .hud-strip,
+  .header-sub {
+    display: none !important;
+  }
+
+  .card-body {
+    padding: 20px 18px;
+  }
+
+  .card-header {
+    padding: 16px 18px 14px;
+  }
+
+  .hero-title {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+  }
+
+  .btn-launch {
+    padding: 15px 22px;
+    font-size: 0.92rem;
+  }
+
+  .btn-secondary {
+    padding: 13px 22px;
+    font-size: 0.88rem;
+    margin-top: 10px;
+  }
+}
 </style>
 </head>
 <body>
@@ -539,7 +541,6 @@ body::before {
 <div class="scene">
   <div class="card">
 
-    <!-- Header -->
     <div class="card-header">
       <div class="logo-wrap" id="logo-wrap">
         <img
@@ -555,10 +556,8 @@ body::before {
       <span class="version-badge">v1.2</span>
     </div>
 
-    <!-- Body -->
     <div class="card-body">
 
-      <!-- Hero -->
       <div class="hero-eyebrow">Stealth Launcher</div>
       <div class="hero-title">
         Ready to<br><span class="hero-gradient">play & bloom.</span>
@@ -567,13 +566,11 @@ body::before {
         Launches the full arcade in a stealth <code>about:blank</code> tab — URL stays clean, content stays fresh.
       </p>
 
-      <!-- Status -->
       <div class="status-row">
         <div class="status-dot" id="status-dot"></div>
         <div class="status-text" id="status-text"><strong>CDN</strong> · ready to fetch</div>
       </div>
 
-      <!-- Presets strip (decorative info) -->
       <div class="presets-strip">
         <div class="preset-pill active"><i class="fas fa-circle-dot"></i>about:blank</div>
         <div class="preset-pill"><i class="fas fa-shield-halved"></i>stealth</div>
@@ -587,27 +584,23 @@ body::before {
         <div class="divider-line"></div>
       </div>
 
-      <!-- Launch button -->
       <button class="btn-launch" id="launchBtn">
         <span class="loader" id="loader" style="display:none"></span>
         <i class="fas fa-play" id="btn-icon" style="font-size:.75rem"></i>
         <span id="btnText">Play Now</span>
       </button>
 
-      <!-- Download button -->
       <button class="btn-secondary" id="downloadBtn">
         <span class="loader loader-pink" id="dl-loader" style="display:none"></span>
         <i class="fas fa-download" id="dl-icon" style="font-size:.78rem"></i>
         <span id="dlText">Download Offline Copy</span>
       </button>
 
-      <!-- Error -->
       <div class="error-box" id="errorMsg">
         <i class="fas fa-triangle-exclamation"></i>
         <span id="errorText"></span>
       </div>
 
-      <!-- Success -->
       <div class="success-box" id="successMsg">
         <i class="fas fa-check-circle"></i>
         <span id="successText">Launched! Check your new tab.</span>
@@ -615,7 +608,6 @@ body::before {
 
     </div>
 
-    <!-- HUD footer strip -->
     <div class="hud-strip">
       <div class="hud-item">
         <div class="hud-dot"></div>
@@ -632,8 +624,8 @@ body::before {
       </div>
     </div>
 
-  </div><!-- /card -->
-</div><!-- /scene -->
+  </div>
+</div>
 
 <script>
   const launchBtn = document.getElementById('launchBtn');
@@ -751,7 +743,6 @@ body::before {
     }
   });
 
-  // Ping HUD
   async function updatePing() {
     try {
       const s = performance.now();
