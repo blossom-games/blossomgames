@@ -558,7 +558,157 @@ textarea{height:130px;resize:none;font-family:var(--mono);}
     </div>
   </div>
 </section>
+<section id="music-content" class="view-section" style="padding:0;overflow:hidden;">
+  <div style="display:flex;flex-direction:column;height:100%;">
+    <div style="padding:14px 24px;border-bottom:1px solid var(--border);background:var(--surface);display:flex;align-items:center;gap:14px;flex-shrink:0;">
+      <div style="width:32px;height:32px;border-radius:10px;background:var(--gradient-subtle);border:1px solid var(--border-hover);display:flex;align-items:center;justify-content:center;">
+        <i class="fas fa-music" style="font-size:.9rem;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"></i>
+      </div>
+      <div>
+        <div style="font-size:.95rem;font-weight:700;color:var(--text-primary);">Music</div>
+        <div style="font-size:.72rem;color:var(--text-muted);font-family:var(--mono);">YouTube · Music only</div>
+      </div>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:8px;">
+        <span id="music-now-title" style="font-size:.75rem;color:var(--text-dim);font-family:var(--mono);max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></span>
+      </div>
+    </div>
 
+    <!-- SEARCH BAR -->
+    <div style="padding:16px 24px;border-bottom:1px solid var(--border);display:flex;gap:8px;">
+      <div style="position:relative;flex:1;display:flex;align-items:center;">
+        <i class="fas fa-search" style="position:absolute;left:13px;color:var(--text-muted);font-size:.85rem;pointer-events:none;"></i>
+        <input type="text" id="music-search-input" placeholder="Search for an artist or song..."
+          style="width:100%;background:var(--input-bg);border:1px solid var(--border);padding:11px 16px 11px 40px;color:var(--text-primary);border-radius:var(--radius-sm);outline:none;font-size:.88rem;transition:.2s;font-family:var(--font);"
+          onfocus="this.style.borderColor='rgba(244,143,177,0.35)'" onblur="this.style.borderColor=''"
+          onkeydown="if(event.key==='Enter')musicSearch()">
+      </div>
+      <button onclick="musicSearch()" style="background:var(--gradient);color:#fff;border:none;padding:0 22px;border-radius:var(--radius-sm);font-weight:700;cursor:pointer;font-size:.85rem;letter-spacing:.06em;font-family:var(--font);box-shadow:0 4px 16px rgba(244,143,177,0.25);">Search</button>
+    </div>
+
+    <!-- MAIN BODY -->
+    <div style="display:flex;flex:1;overflow:hidden;">
+
+      <!-- LEFT PANEL: results + history + AI suggestions -->
+      <div style="width:340px;flex-shrink:0;overflow-y:auto;border-right:1px solid var(--border);display:flex;flex-direction:column;">
+
+        <!-- Queue -->
+        <div id="music-queue-panel" style="display:none;padding:12px;border-bottom:1px solid var(--border);">
+          <div style="font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;">
+            <span style="display:flex;align-items:center;gap:6px;">
+              <i class="fas fa-list" style="color:var(--accent);font-size:.7rem;"></i> Up Next
+              <span id="music-queue-badge" style="background:var(--gradient);color:#fff;font-size:.55rem;font-weight:700;padding:2px 6px;border-radius:20px;font-family:var(--mono);">0</span>
+            </span>
+            <button onclick="musicClearQueue()" style="background:transparent;border:none;color:var(--text-muted);cursor:pointer;font-size:.65rem;font-family:var(--font);padding:0;transition:.15s;" onmouseover="this.style.color='#f06292'" onmouseout="this.style.color='var(--text-muted)'">
+              <i class="fas fa-trash" style="margin-right:3px;"></i>Clear
+            </button>
+          </div>
+          <div id="music-queue-list" style="display:flex;flex-direction:column;gap:3px;max-height:160px;overflow-y:auto;"></div>
+        </div>
+        
+        <!-- AI Suggestions -->
+        <div id="music-ai-panel" style="padding:12px;border-bottom:1px solid var(--border);display:none;">
+          <div style="font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+            <i class="fas fa-wand-magic-sparkles" style="color:var(--accent);font-size:.7rem;"></i> AI Picks For You
+          </div>
+          <div id="music-ai-suggestions" style="display:flex;flex-direction:column;gap:5px;"></div>
+        </div>
+
+        <!-- Search Results -->
+        <div id="music-results-panel" style="padding:12px;border-bottom:1px solid var(--border);">
+          <div style="font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;display:flex;align-items:center;gap:6px;">
+            <i class="fas fa-magnifying-glass" style="color:var(--accent);font-size:.7rem;"></i> Results
+          </div>
+          <div id="music-status" style="color:var(--text-muted);font-size:.8rem;text-align:center;padding:16px 0;">Search above to find music.</div>
+          <div id="music-results" style="display:flex;flex-direction:column;gap:5px;"></div>
+        </div>
+
+        <!-- Listen History -->
+        <div style="padding:12px;flex:1;">
+          <div style="font-size:.62rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;">
+            <span style="display:flex;align-items:center;gap:6px;"><i class="fas fa-clock-rotate-left" style="color:var(--accent);font-size:.7rem;"></i> Listen History</span>
+            <button onclick="musicClearHistory()" style="background:transparent;border:none;color:var(--text-muted);cursor:pointer;font-size:.65rem;font-family:var(--font);padding:0;transition:.15s;" onmouseover="this.style.color='#f06292'" onmouseout="this.style.color='var(--text-muted)'"><i class="fas fa-trash" style="margin-right:3px;"></i>Clear</button>
+          </div>
+          <div id="music-history-list" style="display:flex;flex-direction:column;gap:5px;">
+            <div style="color:var(--text-muted);font-size:.78rem;text-align:center;padding:16px 0;" id="music-history-empty"><i class="fas fa-headphones" style="display:block;margin-bottom:8px;font-size:1.2rem;opacity:.3;"></i>Nothing played yet.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT PANEL: player -->
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:24px;position:relative;">
+
+        <!-- Idle state -->
+        <div id="music-player-idle" style="display:flex;flex-direction:column;align-items:center;gap:12px;color:var(--text-muted);">
+          <div style="width:72px;height:72px;border-radius:22px;background:var(--gradient-subtle);border:1px solid var(--border-hover);display:flex;align-items:center;justify-content:center;">
+            <i class="fas fa-headphones" style="font-size:1.8rem;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;"></i>
+          </div>
+          <div style="font-size:.95rem;font-weight:600;color:var(--text-primary);">Nothing playing</div>
+          <div style="font-size:.78rem;color:var(--text-dim);text-align:center;max-width:220px;line-height:1.5;">Search for a song on the left and click it to play.</div>
+        </div>
+
+        <!-- Active player -->
+        <div id="music-player-active" style="display:none;flex-direction:column;align-items:center;gap:18px;width:100%;max-width:380px;">
+
+          <!-- Album art -->
+          <div style="position:relative;">
+            <img id="music-thumb" src="" alt="" style="width:200px;height:200px;border-radius:18px;object-fit:cover;border:1px solid var(--border);box-shadow:0 12px 48px rgba(244,143,177,0.18);">
+            <div id="music-playing-badge" style="position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);background:var(--gradient);color:#fff;font-size:.6rem;font-weight:700;letter-spacing:.1em;padding:4px 12px;border-radius:20px;white-space:nowrap;box-shadow:0 4px 12px rgba(244,143,177,0.35);">
+              <i class="fas fa-signal" style="margin-right:4px;font-size:.55rem;"></i>NOW PLAYING
+            </div>
+          </div>
+
+          <!-- Track info -->
+          <div style="text-align:center;width:100%;margin-top:6px;">
+            <div id="music-track-title" style="font-size:1.05rem;font-weight:700;color:var(--text-primary);margin-bottom:5px;line-height:1.3;"></div>
+            <div id="music-track-channel" style="font-size:.78rem;color:var(--text-dim);font-family:var(--mono);display:flex;align-items:center;justify-content:center;gap:5px;">
+              <i class="fas fa-user" style="font-size:.65rem;opacity:.6;"></i><span id="music-track-channel-text"></span>
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <div style="display:flex;align-items:center;gap:14px;">
+            <button onclick="musicShuffle()" id="music-shuffle-btn" title="Shuffle" style="background:transparent;border:none;color:var(--text-muted);cursor:pointer;font-size:.95rem;padding:6px;transition:.18s;" onmouseover="this.style.color='var(--accent)'" onmouseout="musicShuffleHover(this)"><i class="fas fa-shuffle"></i></button>
+            <button onclick="musicPrev()" style="background:var(--input-bg);border:1px solid var(--border);color:var(--text-primary);width:40px;height:40px;border-radius:var(--radius-sm);cursor:pointer;font-size:.9rem;transition:.18s;" onmouseover="this.style.borderColor='rgba(244,143,177,0.4)'" onmouseout="this.style.borderColor=''"><i class="fas fa-backward-step"></i></button>
+            <button id="music-pp-btn" onclick="musicTogglePlay()" style="background:var(--gradient);border:none;color:#fff;width:52px;height:52px;border-radius:50%;cursor:pointer;font-size:1.05rem;box-shadow:0 6px 24px rgba(244,143,177,0.35);transition:.2s;"><i class="fas fa-pause"></i></button>
+            <button onclick="musicNext()" style="background:var(--input-bg);border:1px solid var(--border);color:var(--text-primary);width:40px;height:40px;border-radius:var(--radius-sm);cursor:pointer;font-size:.9rem;transition:.18s;" onmouseover="this.style.borderColor='rgba(244,143,177,0.4)'" onmouseout="this.style.borderColor=''"><i class="fas fa-forward-step"></i></button>
+            <button onclick="musicGetAiSuggestions()" title="AI Suggest" style="background:transparent;border:none;color:var(--text-muted);cursor:pointer;font-size:.95rem;padding:6px;transition:.18s;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-muted)'"><i class="fas fa-wand-magic-sparkles"></i></button>
+          </div>
+
+          <!-- Volume -->
+          <div style="display:flex;align-items:center;gap:10px;width:100%;">
+            <i class="fas fa-volume-low" style="color:var(--text-muted);font-size:.85rem;width:16px;text-align:center;"></i>
+            <input type="range" id="music-vol" min="0" max="100" value="80" step="1" style="flex:1;" oninput="musicSetVol(this.value)">
+            <i class="fas fa-volume-high" style="color:var(--text-muted);font-size:.85rem;width:16px;text-align:center;"></i>
+            <span id="music-vol-out" style="font-size:.7rem;color:var(--text-dim);font-family:var(--mono);min-width:28px;">80%</span>
+          </div>
+        </div>
+
+        <div id="yt-player" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;"></div>
+      </div>
+    </div>
+
+    <!-- BOTTOM PLAYER BAR (always visible when something is playing) -->
+    <div id="music-bar" style="border-top:1px solid var(--border);background:var(--surface);padding:10px 20px;display:none;align-items:center;gap:14px;flex-shrink:0;">
+      <img id="music-bar-thumb" src="" style="width:38px;height:38px;border-radius:8px;object-fit:cover;border:1px solid var(--border);flex-shrink:0;">
+      <div style="flex:1;min-width:0;">
+        <div id="music-bar-title" style="font-size:.8rem;font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+        <div id="music-bar-channel" style="font-size:.68rem;color:var(--text-muted);font-family:var(--mono);margin-top:1px;"></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button onclick="musicPrev()" style="background:transparent;border:none;color:var(--text-dim);cursor:pointer;font-size:.9rem;padding:6px;transition:.15s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-dim)'"><i class="fas fa-backward-step"></i></button>
+        <button id="music-bar-pp" onclick="musicTogglePlay()" style="background:var(--gradient);border:none;color:#fff;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:.8rem;box-shadow:0 4px 12px rgba(244,143,177,0.3);"><i class="fas fa-pause"></i></button>
+        <button onclick="musicNext()" style="background:transparent;border:none;color:var(--text-dim);cursor:pointer;font-size:.9rem;padding:6px;transition:.15s;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--text-dim)'"><i class="fas fa-forward-step"></i></button>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+        <i class="fas fa-volume-low" style="color:var(--text-muted);font-size:.75rem;"></i>
+        <input type="range" id="music-bar-vol" min="0" max="100" value="80" step="1" style="width:80px;" oninput="musicSetVol(this.value);document.getElementById('music-vol').value=this.value;document.getElementById('music-vol-out').textContent=this.value+'%';">
+      </div>
+      <div id="music-bar-ai-loading" style="display:none;font-size:.7rem;color:var(--accent);font-family:var(--mono);display:none;align-items:center;gap:5px;">
+        <i class="fas fa-spinner fa-spin" style="font-size:.65rem;"></i> Getting AI picks...
+      </div>
+    </div>
+  </div>
+</section>
 <section id="stats-content" class="view-section">
   <div><div class="page-title">Performance</div><div class="page-heading">Stats & Rankings</div></div>
   <div class="stats-overview" id="stats-overview"></div>
@@ -609,12 +759,13 @@ var systemPages=[
   {id:"home",name:"Home",icon:"fas fa-house"},
   {id:"games",name:"Games",icon:"fas fa-gamepad"},
   {id:"stats",name:"Stats",icon:"fas fa-chart-bar"},
+  {id:"music",name:"Music",icon:"fas fa-music"},
   {id:"ai",name:"AI Chat",icon:"fas fa-message"},
   {id:"settings",name:"Settings",icon:"fas fa-gear"}
 ];
 var shortcuts=JSON.parse(localStorage.getItem("bg_shortcuts")||"null")||{home:"H",games:"G",panic:"P",custom:[]};
 if(!shortcuts.custom)shortcuts.custom=[];
-var navOrder=JSON.parse(localStorage.getItem("bg_nav_order")||"null")||{top:["home","games","stats","ai"],bottom:["settings"]};
+var navOrder=JSON.parse(localStorage.getItem("bg_nav_order")||"null")||{top:["home","games","stats","ai","music"],bottom:["settings"]};
 var customPresets=JSON.parse(localStorage.getItem("bg_custom_presets")||"null")||[];
 
 // ── STATS / HISTORY ──────────────────────────────────────────
@@ -718,7 +869,7 @@ function showAnnouncementWidget(items,version){
 
 // ── NAVIGATION ───────────────────────────────────────────────
 function nav(page){
-  ["home-content","settings","games-content","ai-content","stats-content"].forEach(function(id){
+  ["home-content","settings","games-content","ai-content","stats-content","music-content"].forEach(function(id){
     var el=document.getElementById(id);if(el)el.style.display="none";
   });
   var hud=document.getElementById("home-hud");
@@ -736,6 +887,7 @@ function nav(page){
     else if(page==="games"){document.getElementById("games-content").style.display="flex";if(!gamesLoaded){gamesLoaded=true;gamesListZones();}}
     else if(page==="ai"){document.getElementById("ai-content").style.display="block";}
     else if(page==="stats"){document.getElementById("stats-content").style.display="block";renderStatsPage();}
+    else if(page==="music"){document.getElementById("music-content").style.display="block";}
   }
 }
 
@@ -1031,7 +1183,253 @@ function openZone(file){
 function closeZone(){recordGameClose();zoneViewer.style.display="none";if(zoneFrame&&zoneFrame.parentNode)zoneViewer.removeChild(zoneFrame);renderRecentlyPlayed();}
 function fullscreenZone(){if(zoneFrame.requestFullscreen)zoneFrame.requestFullscreen();else if(zoneFrame.webkitRequestFullscreen)zoneFrame.webkitRequestFullscreen();}
 window.addEventListener("resize",function(){if(featuredGames.length>0)gamesRenderFeatured();});
+// ── MUSIC PLAYER ─────────────────────────────────────────────
+var MUSIC_API_KEY="AIzaSyBp1V7rFqMKxXKst3ht0exwUN10hLb9D6U"; // Replace with your own key
+var musicResults=[],musicCurrentIdx=-1,musicPlayer=null,musicPlayerReady=false,musicPendingId=null;
+var musicShuffleOn=false,musicAiLoading=false,musicQueue=[],musicQueueMode=false;
+var MUSIC_HISTORY_KEY="bg_music_history";
 
+function musicGetHistory(){try{return JSON.parse(localStorage.getItem(MUSIC_HISTORY_KEY))||[];}catch(e){return[];}}
+function musicSaveHistory(h){localStorage.setItem(MUSIC_HISTORY_KEY,JSON.stringify(h));}
+function musicAddToHistory(item){
+  var h=musicGetHistory();
+  var entry={videoId:item.id.videoId,title:item.snippet.title,channel:item.snippet.channelTitle,thumb:item.snippet.thumbnails.default.url,ts:Date.now()};
+  h=h.filter(function(x){return x.videoId!==entry.videoId;});
+  h.unshift(entry);if(h.length>50)h.length=50;
+  musicSaveHistory(h);musicRenderHistory();
+}
+function musicClearHistory(){if(!confirm("Clear listen history?"))return;musicSaveHistory([]);musicRenderHistory();}
+function musicRenderHistory(){
+  var list=document.getElementById("music-history-list"),empty=document.getElementById("music-history-empty");
+  if(!list)return;
+  var h=musicGetHistory();
+  list.querySelectorAll(".music-hist-item").forEach(function(c){c.remove();});
+  if(!h.length){if(empty)empty.style.display="block";return;}
+  if(empty)empty.style.display="none";
+  h.forEach(function(entry){
+    var card=document.createElement("div");card.className="music-hist-item";
+    card.style.cssText="display:flex;align-items:center;gap:9px;padding:7px 8px;border-radius:var(--radius-sm);cursor:pointer;transition:.15s;";
+    card.onmouseover=function(){this.style.background="var(--card-bg)";};
+    card.onmouseout=function(){this.style.background="transparent";};
+    card.onclick=function(){musicSearchAndPlay(entry.videoId,entry.title,entry.channel,entry.thumb);};
+    var ago=musicRelTime(entry.ts);
+    card.innerHTML='<img src="'+entry.thumb+'" style="width:44px;height:32px;border-radius:5px;object-fit:cover;flex-shrink:0;">'
+      +'<div style="flex:1;min-width:0;"><div style="font-size:.75rem;font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+entry.title+'</div>'
+      +'<div style="font-size:.65rem;color:var(--text-muted);margin-top:1px;font-family:var(--mono);display:flex;align-items:center;gap:4px;"><i class="fas fa-clock" style="opacity:.5;font-size:.6rem;"></i>'+ago+'</div></div>'
+      +'<i class="fas fa-play" style="color:var(--text-muted);font-size:.65rem;flex-shrink:0;"></i>';
+    list.appendChild(card);
+  });
+}
+function musicRelTime(ts){var d=Date.now()-ts,m=Math.floor(d/60000);if(m<1)return"Just now";if(m<60)return m+"m ago";var h=Math.floor(m/60);if(h<24)return h+"h ago";return Math.floor(h/24)+"d ago";}
+
+function musicSearchAndPlay(videoId,title,channel,thumb){
+  var fakeItem={id:{videoId:videoId},snippet:{title:title,channelTitle:channel,thumbnails:{default:{url:thumb},high:{url:thumb}}}};
+  musicResults=[fakeItem];musicPlay(0);
+}
+
+function musicSearch(){
+  var q=document.getElementById("music-search-input").value.trim();
+  if(!q)return;
+  document.getElementById("music-status").textContent="Searching...";
+  document.getElementById("music-status").style.display="block";
+  document.getElementById("music-results").innerHTML="";
+  fetch("https://www.googleapis.com/youtube/v3/search?part=snippet&q="+encodeURIComponent(q)+"&type=video&videoCategoryId=10&maxResults=10&key="+MUSIC_API_KEY)
+    .then(function(r){return r.json();})
+    .then(function(data){
+      document.getElementById("music-status").style.display="none";
+      if(!data.items||!data.items.length){document.getElementById("music-status").textContent="No results found.";document.getElementById("music-status").style.display="block";return;}
+      musicResults=data.items;musicRenderResults();
+    })
+    .catch(function(){document.getElementById("music-status").textContent="Search failed. Check your API key.";document.getElementById("music-status").style.display="block";});
+}
+
+function musicRenderResults(){
+  var container=document.getElementById("music-results");container.innerHTML="";
+  musicResults.forEach(function(item,i){
+    var card=document.createElement("div");card.className="music-result-card";
+    card.style.cssText="display:flex;align-items:center;gap:10px;padding:8px 9px;border-radius:var(--radius-sm);cursor:pointer;transition:.15s;border:1px solid "+(i===musicCurrentIdx?"rgba(244,143,177,0.4)":"transparent")+";background:"+(i===musicCurrentIdx?"var(--gradient-subtle)":"transparent")+";";
+    card.onmouseover=function(){if(i!==musicCurrentIdx)this.style.background="var(--card-bg)";};
+    card.onmouseout=function(){if(i!==musicCurrentIdx)this.style.background="transparent";};
+    card.onclick=function(){musicPlay(i);};
+    var thumb=document.createElement("img");thumb.src=item.snippet.thumbnails.default.url;thumb.style.cssText="width:50px;height:36px;border-radius:5px;object-fit:cover;flex-shrink:0;";
+    var info=document.createElement("div");info.style.cssText="flex:1;min-width:0;";
+    var title=document.createElement("div");title.style.cssText="font-size:.76rem;font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;";title.textContent=item.snippet.title;
+    var ch=document.createElement("div");ch.style.cssText="font-size:.66rem;color:var(--text-muted);margin-top:2px;font-family:var(--mono);";ch.textContent=item.snippet.channelTitle;
+    var qBtn=document.createElement("button");
+    qBtn.innerHTML='<i class="fas fa-plus"></i>';
+    qBtn.title="Add to queue";
+    qBtn.style.cssText="background:transparent;border:none;color:var(--text-muted);cursor:pointer;font-size:.75rem;padding:5px;transition:.15s;flex-shrink:0;";
+    qBtn.onmouseover=function(){this.style.color="var(--accent)";};
+    qBtn.onmouseout=function(){this.style.color="var(--text-muted)";};
+    qBtn.onclick=function(e){e.stopPropagation();musicAddToQueue(item,this);};
+    info.append(title,ch);card.append(thumb,info,qBtn);container.appendChild(card);
+  });
+}
+
+function musicPlay(idx){
+  musicCurrentIdx=idx;musicRenderResults();
+  var item=musicResults[idx];
+  var vid=item.id.videoId,title=item.snippet.title,channel=item.snippet.channelTitle;
+  var thumb=item.snippet.thumbnails.high?.url||item.snippet.thumbnails.default.url;
+  var thumbSm=item.snippet.thumbnails.default.url;
+  // Update main player
+  document.getElementById("music-track-title").textContent=title;
+  document.getElementById("music-track-channel-text").textContent=channel;
+  document.getElementById("music-thumb").src=thumb;
+  document.getElementById("music-now-title").textContent=title;
+  document.getElementById("music-player-idle").style.display="none";
+  document.getElementById("music-player-active").style.display="flex";
+  document.getElementById("music-pp-btn").innerHTML='<i class="fas fa-pause"></i>';
+  // Update bottom bar
+  document.getElementById("music-bar-title").textContent=title;
+  document.getElementById("music-bar-channel").textContent=channel;
+  document.getElementById("music-bar-thumb").src=thumbSm;
+  document.getElementById("music-bar").style.display="flex";
+  document.getElementById("music-bar-pp").innerHTML='<i class="fas fa-pause"></i>';
+  // Save history
+  musicAddToHistory(item);
+  if(musicPlayer&&musicPlayerReady){musicPlayer.loadVideoById(vid);musicPlayer.setVolume(+document.getElementById("music-vol").value);}
+  else{musicPendingId=vid;musicInitPlayer(vid);}
+}
+
+function musicInitPlayer(videoId){
+  if(window.YT&&window.YT.Player){musicCreatePlayer(videoId);return;}
+  window.onYouTubeIframeAPIReady=function(){musicCreatePlayer(musicPendingId||videoId);};
+  if(!document.getElementById("yt-api-script")){var s=document.createElement("script");s.id="yt-api-script";s.src="https://www.youtube.com/iframe_api";document.head.appendChild(s);}
+}
+function musicCreatePlayer(videoId){
+  musicPlayer=new YT.Player("yt-player",{
+    height:"1",width:"1",videoId:videoId,
+    playerVars:{autoplay:1,controls:0},
+    events:{
+      onReady:function(e){musicPlayerReady=true;e.target.setVolume(+document.getElementById("music-vol").value);if(musicPendingId){e.target.loadVideoById(musicPendingId);musicPendingId=null;}},
+      onStateChange:function(e){if(e.data===YT.PlayerState.ENDED)musicNext();}
+    }
+  });
+}
+function musicTogglePlay(){
+  if(!musicPlayer||!musicPlayerReady)return;
+  var state=musicPlayer.getPlayerState();
+  if(state===1){
+    musicPlayer.pauseVideo();
+    document.getElementById("music-pp-btn").innerHTML='<i class="fas fa-play"></i>';
+    document.getElementById("music-bar-pp").innerHTML='<i class="fas fa-play"></i>';
+  }else{
+    musicPlayer.playVideo();
+    document.getElementById("music-pp-btn").innerHTML='<i class="fas fa-pause"></i>';
+    document.getElementById("music-bar-pp").innerHTML='<i class="fas fa-pause"></i>';
+  }
+}
+function musicNext(){
+  if(musicQueue.length){
+    var next=musicQueue.shift();
+    musicRenderQueue();
+    musicSearchAndPlay(next.videoId,next.title,next.channel,next.thumb);
+    return;
+  }
+  if(!musicResults.length)return;
+  if(musicShuffleOn){musicPlay(Math.floor(Math.random()*musicResults.length));}
+  else musicPlay((musicCurrentIdx+1)%musicResults.length);
+}
+function musicAddToQueue(item,fromBtn){
+  musicQueue.push({videoId:item.id.videoId,title:item.snippet.title,channel:item.snippet.channelTitle,thumb:item.snippet.thumbnails.default.url});
+  musicRenderQueue();
+  if(fromBtn){
+    var el=fromBtn;el.innerHTML='<i class="fas fa-check"></i>';el.style.color="var(--accent)";
+    setTimeout(function(){el.innerHTML='<i class="fas fa-plus"></i>';el.style.color="";},1200);
+  }
+}
+function musicClearQueue(){musicQueue=[];musicRenderQueue();}
+function musicRenderQueue(){
+  var panel=document.getElementById("music-queue-panel"),list=document.getElementById("music-queue-list"),badge=document.getElementById("music-queue-badge");
+  if(badge)badge.textContent=musicQueue.length;
+  if(!panel||!list)return;
+  if(!musicQueue.length){panel.style.display="none";return;}
+  panel.style.display="block";
+  list.innerHTML="";
+  musicQueue.forEach(function(item,i){
+    var card=document.createElement("div");
+    card.style.cssText="display:flex;align-items:center;gap:9px;padding:7px 8px;border-radius:var(--radius-sm);";
+    card.innerHTML='<span style="font-size:.6rem;color:var(--text-muted);font-family:var(--mono);min-width:14px;text-align:center;">'+(i+1)+'</span>'
+      +'<img src="'+item.thumb+'" style="width:40px;height:28px;border-radius:4px;object-fit:cover;flex-shrink:0;">'
+      +'<div style="flex:1;min-width:0;"><div style="font-size:.74rem;font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+item.title+'</div>'
+      +'<div style="font-size:.64rem;color:var(--text-muted);font-family:var(--mono);">'+item.channel+'</div></div>'
+      +'<button onclick="musicRemoveFromQueue('+i+')" style="background:transparent;border:none;color:var(--text-muted);cursor:pointer;font-size:.7rem;padding:4px;transition:.15s;" onmouseover="this.style.color=\'#f06292\'" onmouseout="this.style.color=\'var(--text-muted)\'"><i class="fas fa-xmark"></i></button>';
+    list.appendChild(card);
+  });
+}
+function musicRemoveFromQueue(i){musicQueue.splice(i,1);musicRenderQueue();}
+function musicShuffle(){musicShuffleOn=!musicShuffleOn;var btn=document.getElementById("music-shuffle-btn");btn.style.color=musicShuffleOn?"var(--accent)":"var(--text-muted)";}
+function musicShuffleHover(el){el.style.color=musicShuffleOn?"var(--accent)":"var(--text-muted)";}
+function musicSetVol(v){
+  document.getElementById("music-vol-out").textContent=v+"%";
+  document.getElementById("music-vol").value=v;
+  document.getElementById("music-bar-vol").value=v;
+  if(musicPlayer&&musicPlayerReady)musicPlayer.setVolume(+v);
+}
+
+// ── AI MUSIC SUGGESTIONS ──────────────────────────────────────
+async function musicGetAiSuggestions(){
+  var h=musicGetHistory();
+  if(!h.length){alert("Play some songs first so AI can learn your taste!");return;}
+  if(musicAiLoading)return;
+  musicAiLoading=true;
+  var aiLoader=document.getElementById("music-bar-ai-loading");
+  if(aiLoader)aiLoader.style.display="flex";
+  var panel=document.getElementById("music-ai-panel"),suggs=document.getElementById("music-ai-suggestions");
+  panel.style.display="block";suggs.innerHTML='<div style="color:var(--text-muted);font-size:.75rem;display:flex;align-items:center;gap:6px;padding:4px 0;"><i class="fas fa-spinner fa-spin" style="color:var(--accent);font-size:.7rem;"></i> Analyzing your taste...</div>';
+  var recentTracks=h.slice(0,10).map(function(x){return'"'+x.title+'" by '+x.channel;}).join(", ");
+  var prompt='Based on these recently played songs: '+recentTracks+'. Suggest 5 new songs the user would enjoy. Reply ONLY with a JSON array like: [{"title":"Song Name","artist":"Artist Name"}]. No other text.';
+  try{
+    var res=await fetch(GROQ_WORKER_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({model:"llama-3.3-70b-versatile",max_tokens:300,messages:[{role:"user",content:prompt}]})});
+    var data=await res.json();
+    var text=data.choices?.[0]?.message?.content||"[]";
+    var clean=text.replace(/```json|```/g,"").trim();
+    var parsed=JSON.parse(clean);
+    suggs.innerHTML="";
+    parsed.forEach(function(s){
+      var btn=document.createElement("div");
+      btn.style.cssText="display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:var(--radius-sm);cursor:pointer;transition:.15s;border:1px solid var(--border);background:var(--card-bg);";
+      btn.onmouseover=function(){this.style.borderColor="rgba(244,143,177,0.4)";this.style.background="var(--gradient-subtle)";};
+      btn.onmouseout=function(){this.style.borderColor="var(--border)";this.style.background="var(--card-bg)";};
+      btn.innerHTML='<i class="fas fa-wand-magic-sparkles" style="color:var(--accent);font-size:.7rem;flex-shrink:0;"></i>'
+        +'<div style="flex:1;min-width:0;"><div style="font-size:.76rem;font-weight:600;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+s.title+'</div>'
+        +'<div style="font-size:.66rem;color:var(--text-muted);font-family:var(--mono);">'+s.artist+'</div></div>'
+        +'<i class="fas fa-search" style="color:var(--text-muted);font-size:.65rem;flex-shrink:0;"></i>';
+      var isFirst=(suggs.children.length===0);
+      btn.onclick=function(){document.getElementById("music-search-input").value=s.title+" "+s.artist;musicSearch();};
+      if(isFirst){
+        btn.onclick=function(){
+      document.getElementById("music-search-input").value=s.title+" "+s.artist;
+      musicSearchThenAutoQueue(s.title+" "+s.artist);
+        };
+      }
+      suggs.appendChild(btn);
+    });
+  }catch(e){suggs.innerHTML='<div style="color:#f06292;font-size:.75rem;padding:4px 0;"><i class="fas fa-triangle-exclamation" style="margin-right:4px;"></i>Could not get suggestions.</div>';}
+  finally{musicAiLoading=false;if(aiLoader)aiLoader.style.display="none";}
+}
+function musicSearchThenAutoQueue(q){
+  document.getElementById("music-search-input").value=q;
+  document.getElementById("music-status").textContent="Searching...";
+  document.getElementById("music-status").style.display="block";
+  document.getElementById("music-results").innerHTML="";
+  fetch("https://www.googleapis.com/youtube/v3/search?part=snippet&q="+encodeURIComponent(q)+"&type=video&videoCategoryId=10&maxResults=10&key="+MUSIC_API_KEY)
+    .then(function(r){return r.json();})
+    .then(function(data){
+      document.getElementById("music-status").style.display="none";
+      if(!data.items||!data.items.length)return;
+      musicResults=data.items;
+      musicRenderResults();
+      // If nothing playing, play first result. Otherwise add first result to queue.
+      if(musicCurrentIdx===-1){
+        musicPlay(0);
+      }else{
+        musicAddToQueue(data.items[0],null);
+      }
+    })
+    .catch(function(){document.getElementById("music-status").textContent="Search failed.";document.getElementById("music-status").style.display="block";});
+}
 // ── INIT ─────────────────────────────────────────────────────
 function glInitSystems(){nav(document.getElementById("init-target-select")?.value||"games");}
 async function downloadApp() {
@@ -1106,7 +1504,7 @@ window.onload=function(){
   announceEl.className="announce-corner";
   announceEl.style.display="none"; // hidden until data arrives
   document.body.appendChild(announceEl);
-
+  musicRenderHistory();
   nav("home");
   if (location.protocol === "file:") document.getElementById("download-btn").style.display = "none";
   setTimeout(() => obfuscateDOM(), 100);
