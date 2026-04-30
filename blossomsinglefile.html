@@ -953,7 +953,7 @@ function useCustomPreset(i){var p=customPresets[i];document.getElementById("cloa
 function saveAsPreset(){var t=document.getElementById("cloak-title").value.trim(),ic=document.getElementById("cloak-icon").value.trim(),n=t||ic||"Preset";if(!t&&!ic)return;customPresets.push({name:n.length>12?n.slice(0,12)+"...":n,title:t,icon:ic});localStorage.setItem("bg_custom_presets",JSON.stringify(customPresets));renderPresets();}
 function deleteCustomPreset(i){customPresets.splice(i,1);localStorage.setItem("bg_custom_presets",JSON.stringify(customPresets));renderPresets();}
 function resetSettings(){if(confirm("Factory reset — wipe all data?")){localStorage.clear();location.reload();}}
-function openAboutBlankCloak(){var tab=window.open("about:blank","_blank");if(!tab){alert("Pop-up blocked!");return;}var h='<script>(async()=>{var r=await fetch("https://cdn.jsdelivr.net/gh/blossom-games/blossomgames@main/blossomsinglefile.html?v="+Date.now());var h=await r.text();document.open();document.write(h);document.close();})();<\/script>';tab.document.write(h);tab.document.close();}
+function openAboutBlankCloak(){var tab=window.open("about:blank","_blank");if(!tab){alert("Pop-up blocked!");return;}var h='<script>(async()=>{var r=await fetch("https://cdn.jsdelivr.net/gh/blossom-games/blossomgames@main/autoupdate.html?v="+Date.now());var h=await r.text();document.open();document.write(h);document.close();})();<\/script>';tab.document.write(h);tab.document.close();}
 
 // ── AFK CLOAK ────────────────────────────────────────────────
 (function(){
